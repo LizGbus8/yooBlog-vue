@@ -3,7 +3,7 @@
       <div class="article">
         <div class="title">
           <h2>{{articleDetail.article.title}}</h2>
-          <span v-if="articleDetail.article.createdTime">发表于{{articleDetail.article.createdTime | formatDate}} &nbsp;&nbsp;分类于 <a style="color: #df5000;cursor: pointer">📂Yoo说说</a> &nbsp;&nbsp;{{articleDetail.article.replyCount}}条评论 &nbsp;&nbsp;阅读次数 {{articleDetail.article.readCount}}</span>
+          <span v-if="articleDetail.article.createdTime">发表于{{articleDetail.article.createdTime | formatDate}} &nbsp;&nbsp;分类于 <a style="color: #df5000;cursor: pointer">📂{{tabDesc(articleDetail.article.tid) }}</a> &nbsp;&nbsp;{{articleDetail.article.replyCount}}条评论 &nbsp;&nbsp;阅读次数 {{articleDetail.article.readCount}}</span>
         </div>
         <div class="content" v-html="articleDetail.article.content">
         </div>
@@ -31,47 +31,30 @@
             </ul>
           </div>
         </div>
-        <h3 class="comments-list__title">评论<sup>「 2 」</sup></h3>
-        <div class="comments-list">
-          <div class="comments-items">
-            <div class="comments-item">
+        <h3 class="comments-list__title">评论<sup>「 {{articleDetail.comments !=null ? articleDetail.comments.length : 0}} 」</sup></h3>
+        <div class="comments-list" >
+          <div class="comments-items" v-if="articleDetail.comments">
+            <div class="comments-item" v-for="(item_comment, index) in articleDetail.comments">
               <figure class="comments-item__avatar"><img
-                src="@/assets/image/img123.png" alt="大王"></figure>
+                src="@/assets/image/img123.png" alt="item_comment.fromName"></figure>
               <div class="comment-item__body">
                 <div class="comment-item__info">
-                  <strong class="comment-item__nick">大王</strong>
-                  <time class="comment-item__time">2月前</time>
-                  <span class="comment-item__reply-btn">回复</span>
-                  <span class="comment-item__floor"><sup>56楼</sup></span></div>
+                  <strong class="comment-item__nick">{{item_comment.fromName}}</strong>
+                  <time class="comment-item__time">{{item_comment.createdTime | formatDate}}&nbsp;&nbsp;<i class="iconfont" style="padding-left: 5px">&#xe768;</i>{{item_comment.address}}</time>
+                  <span class="comment-item__reply-btn"></span>
+                  <span class="comment-item__floor"><sup>{{item_comment.floor}}楼</sup></span></div>
                 <div class="comment-item__content">
-                  韩子昂。为了修好发动机，阻止地不错，学习一下
+                  {{item_comment.content}}
                 </div>
-                <div class="comment-item__quote">
-                  <div class="comment-item__info"><strong class="comment-item__nick">zsas</strong>
-                    <time class="comment-item__time">2018-12-26 22:39</time>
+                <div class="comment-item__quote" v-for="(item_reply, index) in item_comment.replies">
+                  <div class="comment-item__info"><strong class="comment-item__nick">{{item_reply.fromName}}</strong>&nbsp;回复 &nbsp;<strong class="comment-item__nick">{{item_reply.toName}}</strong>
+                    <time class="comment-item__time">{{item_reply.createdTime | formatDate}}&nbsp;&nbsp;<i class="iconfont" style="padding-left: 5px">&#xe768;</i>{{item_reply.address}}</time>
                   </div>
-                  <div class="comment-item__content">国产片再上了一个层次，在影片中，无论是特效还是场景的刻画都相当到位<a href="http://www.smohan.net" target="_blank"
-                                                        title="http://www.smohan.net">http://www.smohan.net</a></div>
-                </div> <!----></div>
-            </div>
-            <div class="comments-item">
-              <figure class="comments-item__avatar"><img
-                src="@/assets/image/img123.png" alt="大王"></figure>
-              <div class="comment-item__body">
-                <div class="comment-item__info"><strong class="comment-item__nick">大王</strong>
-                  <time class="comment-item__time">2月前</time>
-                  <span class="comment-item__reply-btn">回复</span> <span
-                    class="comment-item__floor mo-text-hint mo-right">58楼</span></div>
-                <div class="comment-item__content">
-                  网站做的不浪地球”萧（吴孟达 饰）的运输车，结果不错，学习一下
+                  <div class="comment-item__content">
+                    {{item_reply.content}}
+                  </div>
                 </div>
-                <div class="comment-item__quote">
-                  <div class="comment-item__info"><strong class="comment-item__nick">zsas</strong>
-                    <time class="comment-item__time">2018-12-26 22:39</time>
-                  </div>
-                  <div class="comment-item__content"><a href="http://www.smohan.net" target="_blank"
-                                                        title="http://www.smohan.net">http://www.smohan.net</a></div>
-                </div> <!----></div>
+              </div>
             </div>
           </div>
         </div>
@@ -94,15 +77,26 @@
     computed:{
       ...mapState({
         articleDetail: ({articleDetail}) => articleDetail
-      })
+      }),
+      tabDesc() {
+        return function (tabId) {
+          const tabs = this.$store.state.tab.tabs.filter(e=>e.tid == tabId);
+          console.log(tabs);
+          return tabs.length > 0 ? tabs[0].description : 'null';
+        }
+      }
     },
     methods:{
       ...mapActions([
         'reqArticle',
+        'reqComments'
       ]),
       initData(){
+        //获取文章信息
         const aId = this.$route.params.aid;
         this.reqArticle(aId);
+        //获取评论信息
+        this.reqComments({ownerId:aId});
       }
     }
   }
@@ -190,7 +184,7 @@
         flex auto
         .comments-item
           display flex
-          margin-bottom 30px
+          margin-bottom 20px
           padding-bottom 10px
           box-shadow: 0 1px 0 #f2f2f1;
           .comments-item__avatar
@@ -213,7 +207,8 @@
                 color #df5000
                 font-weight 600
               .comment-item__time
-                padding-left 15px
+                padding-left 6px
+                font-size 12px
               .comment-item__floor
                 float right
             .comment-item__content
@@ -221,8 +216,16 @@
               min-height 26px
               flex-direction column
               justify-content center
+              margin-bottom 8px
             .comment-item__quote
               background-color #f8f8f7
               padding 16px
-              margin-top 10px
+              margin-top 2px
+    .iconfont {
+      font-family: "iconfont" !important;
+      font-size: 16px;
+      font-style: normal;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 </style>

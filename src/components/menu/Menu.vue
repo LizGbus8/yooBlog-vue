@@ -1,14 +1,14 @@
 <template>
   <div class='wrap'>
     <input type='checkbox' id='checking' style='display:none;' />
-    <button class='blob'><span>&#x2605;</span></button>
-    <button class='blob'>&#x2709;</button>
-    <button class='blob'>&#x2699;</button>
+    <button class='blob' @click="menuClick('reply')"><i class="iconfont">&#xe644;</i></button>
+    <button class='blob'><i class="iconfont" style="font-size: 22px">&#xe8e5;</i></button>
+    <button class='blob'>&#x2699;1</button>
     <button class='blob'>&#x2764;</button>
-    <button class='blob'>&#x270C;</button>
-    <button class='blob'>&#x270E;</button>
-    <button class='blob'>&#x266B;</button>
-    <button class='blob'>&#x2706;</button>
+    <button class='blob'><i class="iconfont">&#xe67d;</i></button>
+    <button class='blob'><i class="iconfont">&#xe617;</i></button>
+    <button class='blob'><i class="iconfont" style="font-size: 22px">&#xe605;</i></button>
+    <button class='blob'><i class="iconfont">&#xe66e;</i></button>
     <label class='blob' for='checking'>
       <span class='bar'></span>
       <span class='bar'></span>
@@ -18,12 +18,47 @@
 </template>
 
 <script>
+
+  import {mapActions} from "vuex";
+
   export default {
-      name: "Menu"
+    name: "Menu",
+    methods: {
+      menuClick: function (option) {
+        //重复点击
+        if (option == this.$store.state.component.name) {
+          this.$store.dispatch("setComponent", {})
+        } else {
+          let path = this.$route.fullPath;
+          let placeholder;
+          //判断路由
+          if (path.indexOf('/home') != -1 || path.indexOf('/talk') != -1) {
+            placeholder = "给我留言吧(￣▽￣)~*"
+          } else if (path.indexOf('/detail') != -1) {
+            placeholder = "快给文章评论吧(￣▽￣)~*"
+          }
+          console.log(option);
+          let params = {
+            'name': option,//Layout显示的组件
+            'action': 'reqTalk',//添加留言API
+            'placeholder': placeholder,//文本框提示
+            'submitDesc': '留言'//提交按钮文字
+          }
+          this.$store.dispatch("setComponent", params)
+        }
+      }
+    }
   }
 </script>
 
 <style scoped lang="stylus">
+  .iconfont {
+    font-family: "iconfont" !important;
+    font-size: 18px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
   .bar {
     display: block;
     width: 30px;

@@ -6,7 +6,7 @@
         <div class="article">
           <div class="content">
             <div class="tag">
-              <span style="color: #999;">来自标签 {{item.tab}}</span>
+              <span style="color: #999;">来自标签「{{tabDesc(item.tid)}}」</span>
             </div>
             <p class="title">{{item.title}}</p>
             <p class="body">{{item.content}}</p>
@@ -17,7 +17,7 @@
         <div class="info">
             <span class="bottom">
               <span class="praise">
-                <span class="wrap"><i class="el-icon-good"></i></span>
+                <span class="wrap"><i class="iconfont">&#xe64f;</i></span>
                 <span v-if="item.starCount > 0">
                   <span class="unit">x</span>
                   <span class="praisenums">{{item.starCount}}</span>
@@ -33,7 +33,7 @@
         </div>
       </li>
     </ul>
-    <div class="paging">
+    <div class="paging" v-if="articleList.total > 10">
       <el-pagination
         @current-change="currentChange"
         :page-size="10"
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-  import Console from "./Console";
+  import Console from "../../components/console/Console";
   import {mapActions, mapState} from "vuex";
   import {LATELY} from "../../api/contants.js";
   import {formatDate} from "@/filters"
@@ -66,7 +66,12 @@
       ...mapState({
         articleList: ({articleList}) => articleList,
         tab: ({tab}) => tab
-      })
+      }),
+      tabDesc() {
+        return function (tabId) {
+          return this.$store.state.tab.tabs.filter(e=>e.tid == tabId)[0].description;
+        }
+      }
     },
     mounted() {
     },
@@ -162,13 +167,13 @@
             text-align center;
             line-height 24px;
 
-            .el-icon-good
+            .iconfont
               font-size: 14px;
               font-weight: bold;
               color: $theme;
 
           &:hover
-            .el-icon-good
+            .iconfont
               color #ffffff
               transform all;
               transition .3s;
@@ -212,4 +217,12 @@
   .paging
     display flex;
     justify-content center;
+
+  .iconfont
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
 </style>

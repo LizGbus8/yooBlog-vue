@@ -1,60 +1,41 @@
 <template>
   <div class="mood">
-    <section id=timeline>
+    <section class="timeline">
       <h1>你今天有穿品如的衣服吗.</h1>
       <p class="leader">All cards must be the same height and width for space calculations on large screens.</p>
-      <div class="demo-card-wrapper">
-        <div class="demo-card demo-card--step1">
+      <div class="card-wrap" v-if="talk.talks">
+        <div class="card" v-for="(item, index) in talk.talks">
           <div class="head">
             <div class="number-box">
-              <span>01</span>
+              <span>{{item.floor}}</span>
             </div>
-            <h2><span class="small">@Persistence-al</span>“竹马成双，比肩为王”</h2>
+            <h2><span class="small">{{item.quoteTitle}}</span>{{item.quoteContent}}</h2>
           </div>
           <div class="body">
             <!--回复区域 begin-->
             <div class="comment-show">
-              <div class="avatar_pic"><img src="@/assets/image/img123.png"></div>
+              <div class="avatar_pic"><img :src="item.fromAvatar"></div>
               <div class="rep">
                 <div class="item">
                   <div class="info">
-                    <span class="content"><a href="#" class="name">张三 : </a>来啊 造d求，从而使得服务保持稳定。!</span>
+                    <span class="content"><a href="#" class="name">{{item.fromName}} ： </a><div v-html="item.content"></div>
+                    </span>
                   </div>
                   <div class="bottom">
-                    <span class="date">2017-5-2 11:11:39</span>
-                    <span class="op" @click.stop="reply()"><a>回复</a></span>
+                    <span class="date">{{item.createdTime | formatDate}}<i class="iconfont" style="padding-left: 5px">&#xe768;</i>{{item.address}}</span>
+                    <span class="op" @click.stop="reply2Comment(item.cid)"><a class="reply-btn"><i class="iconfont" style="font-size: 12px">&#xe644;</i></a></span>
                   </div>
                 </div>
                 <div class="re-list">
                   <div class="re-item">
-                    <div class="item">
+                    <div class="item" v-for="(item_reply, index) in item.replies">
                       <div class="info">
-                        <a href="#" class="name">张三 : </a>回复：<a href="#" class="name">张三 : </a>
-                        <span class="content">来啊 造d作啊用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。!</span>
+                        <a href="#" class="name">{{item_reply.fromName}}  </a>回复 <a href="#" class="name">{{item_reply.toName}} ： </a>
+                        <span class="content" v-html="item_reply.content"></span>
                       </div>
                       <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                    <div class="item">
-                      <div class="info">
-                        <a href="#" class="name">张三 : </a>回复：<a href="#" class="name">张三 : </a>
-                        <span class="content">来啊 造d作啊用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。!</span>
-                      </div>
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                    <div class="item">
-                      <div class="info">
-                        <a href="#" class="name">张三 : </a>回复：<a href="#" class="name">张三 : </a>
-                        <span class="content">来啊 造d作啊用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。!</span>
-                      </div>
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
+                        <span class="date">{{item_reply.createdTime | formatDate}}<i class="iconfont" style="padding-left: 5px">&#xe768;</i>{{item.address}}</span>
+                        <span class="op" @click="reply2Reply(item_reply.rid)"><a class="reply-btn"><i class="iconfont" style="font-size: 12px">&#xe644;</i></a></span>
                       </div>
                     </div>
                   </div>
@@ -62,334 +43,48 @@
               </div>
             </div>
             <!--回复区域 end-->
-          </div>
-        </div>
-        <div class="demo-card demo-card--step1">
-          <div class="head">
-            <div class="number-box">
-              <span>01</span>
-            </div>
-            <h2><span class="small">旅游</span>我喜欢，春天的花，夏天的树</h2>
-          </div>
-          <div class="body">
-            <!--回复区域 begin-->
-            <div class="comment-show">
-              <div class="avatar_pic"><img src="@/assets/image/img123.png"></div>
-              <div class="rep">
-                <div class="item">
-                  <div class="info">
-                    <span class="content"><a href="#" class="name">张三 : </a>来啊 造>d求，从而使得服务保持稳定。!</span>
-                  </div>
-                  <div class="bottom">
-                    <span class="date">2017-5-2 11:11:39</span>
-                    <span class="op" @click.stop="reply()"><a>回复</a></span>
-                  </div>
-                </div>
-                <div class="re-list">
-                  <div class="re-item">
-                    <div class="item">
-                      <div class="info">
-                        <a href="#" class="name">张三 : </a>回复：<a href="#" class="name">张三 : </a>
-                        <span class="content">来啊 造d作啊用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。!</span>
-                      </div>
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                    <div class="item">
-                      <div class="info">
-                        <a href="#" class="name">张三 : </a>回复：<a href="#" class="name">张三 : </a>
-                        <span class="content">来啊 造d作啊用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。!</span>
-                      </div>
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                    <div class="item">
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--回复区域 end-->
-          </div>
-        </div>
-        <div class="demo-card demo-card--step2">
-          <div class="head">
-            <div class="number-box">
-              <span>01</span>
-            </div>
-            <h2><span class="small">旅游</span>我喜欢，春天的花，夏天的树</h2>
-          </div>
-          <div class="body">
-            <!--回复区域 begin-->
-            <div class="comment-show">
-              <div class="avatar_pic"><img src="@/assets/image/img123.png"></div>
-              <div class="rep">
-                <div class="item">
-                  <div class="info">
-                    <span class="content"><a href="#" class="name">张三 : </a>来啊 造d求，从而使得服务保持稳定。!</span>
-                  </div>
-                  <div class="bottom">
-                    <span class="date">2017-5-2 11:11:39</span>
-                    <span class="op" @click.stop="reply()"><a>回复</a></span>
-                  </div>
-                </div>
-                <div class="re-list">
-                  <div class="re-item">
-                    <div class="item">
-                      <div class="info">
-                        <a href="#" class="name">张三 : </a>回复：<a href="#" class="name">张三 : </a>
-                        <span class="content">来啊 造d作啊用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。!</span>
-                      </div>
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                    <div class="item">
-                      <div class="info">
-                        <a href="#" class="name">张三 : </a>回复：<a href="#" class="name">张三 : </a>
-                        <span class="content">来啊 造d作啊用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。!</span>
-                      </div>
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                    <div class="item">
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--回复区域 end-->
-            <!--<p>流算法的应用场景非常广泛，配置较被上游应用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。限流也同样可以用于客户端，比如当我们需要从微博上爬</p>-->
-            <!--<div class="img">-->
-            <!--<h2>你好，明天</h2>-->
-            <!--&lt;!&ndash;<img style="width:100%;height: 100%" src="http://pc.huangshan.com.cn/static//fileupload/20181227/201812271500208lwckq.jpg" alt="Graphic">&ndash;&gt;-->
-            <!--</div>-->
-          </div>
-        </div>
-        <div class="demo-card demo-card--step3">
-          <div class="head">
-            <div class="number-box">
-              <span>01</span>
-            </div>
-            <h2><span class="small">旅游</span>我喜欢，春天的花，夏天的树</h2>
-          </div>
-          <div class="body">
-            <!--回复区域 begin-->
-            <div class="comment-show">
-              <div class="avatar_pic"><img src="@/assets/image/img123.png"></div>
-              <div class="rep">
-                <div class="item">
-                  <div class="info">
-                    <span class="content"><a href="#" class="name">张三 : </a>来啊 造d求，从而使得服务保持稳定。!</span>
-                  </div>
-                  <div class="bottom">
-                    <span class="date">2017-5-2 11:11:39</span>
-                    <span class="op" @click.stop="reply()"><a>回复</a></span>
-                  </div>
-                </div>
-                <div class="re-list">
-                  <div class="re-item">
-                    <div class="item">
-                      <div class="info">
-                        <a href="#" class="name">张三 : </a>回复：<a href="#" class="name">张三 : </a>
-                        <span class="content">来啊 造d作啊用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。!</span>
-                      </div>
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                    <div class="item">
-                      <div class="info">
-                        <a href="#" class="name">张三 : </a>回复：<a href="#" class="name">张三 : </a>
-                        <span class="content">来啊 造d作啊用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。!</span>
-                      </div>
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                    <div class="item">
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--回复区域 end-->
-            <!--<p>流算法的应用场景非常广泛，配置较被上游应用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。限流也同样可以用于客户端，比如当我们需要从微博上爬</p>-->
-            <!--<div class="img">-->
-            <!--<h2>你好，明天</h2>-->
-            <!--&lt;!&ndash;<img style="width:100%;height: 100%" src="http://pc.huangshan.com.cn/static//fileupload/20181227/201812271500208lwckq.jpg" alt="Graphic">&ndash;&gt;-->
-            <!--</div>-->
-          </div>
-        </div>
-        <div class="demo-card demo-card--step4">
-          <div class="head">
-            <div class="number-box">
-              <span>01</span>
-            </div>
-            <h2>我喜欢，春天的花，夏天的树我我喜欢，春天的花，夏天的树喜欢，春天的花，夏天的树<span class="small">旅游</span></h2>
-          </div>
-          <div class="body">
-            <!--回复区域 begin-->
-            <div class="comment-show">
-              <div class="avatar_pic"><img src="@/assets/image/img123.png"></div>
-              <div class="rep">
-                <div class="item">
-                  <div class="info">
-                    <span class="content"><a href="#" class="name">张三 : </a>来啊 造d求，从而使得服务保持稳定。!</span>
-                  </div>
-                  <div class="bottom">
-                    <span class="date">2017-5-2 11:11:39</span>
-                    <span class="op" @click.stop="reply()"><a>回复</a></span>
-                  </div>
-                </div>
-                <div class="re-list">
-                  <div class="re-item">
-                    <div class="item">
-                      <div class="info">
-                        <a href="#" class="name">张三 : </a>回复：<a href="#" class="name">张三 : </a>
-                        <span class="content">来啊 造d作啊用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。!</span>
-                      </div>
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                    <div class="item">
-                      <div class="info">
-                        <a href="#" class="name">张三 : </a>回复：<a href="#" class="name">张三 : </a>
-                        <span class="content">来啊 造d作啊用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。!</span>
-                      </div>
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                    <div class="item">
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--回复区域 end-->
-            <!--<p>流算法的应用场景非常广泛，配置较被上游应用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。限流也同样可以用于客户端，比如当我们需要从微博上爬</p>-->
-            <!--<div class="img">-->
-            <!--<h2>你好，明天</h2>-->
-            <!--&lt;!&ndash;<img style="width:100%;height: 100%" src="http://pc.huangshan.com.cn/static//fileupload/20181227/201812271500208lwckq.jpg" alt="Graphic">&ndash;&gt;-->
-            <!--</div>-->
-          </div>
-        </div>
-        <div class="demo-card demo-card--step5">
-          <div class="head">
-            <div class="number-box">
-              <span>01</span>
-            </div>
-            <h2><span class="small">旅游</span>我喜欢，春天的花，夏天的树</h2>
-          </div>
-          <div class="body">
-            <!--回复区域 begin-->
-            <div class="comment-show">
-              <div class="avatar_pic"><img src="@/assets/image/img123.png"></div>
-              <div class="rep">
-                <div class="item">
-                  <div class="info">
-                    <span class="content"><a href="#" class="name">张三 : </a>来啊 造d求，从而使得服务保持稳定。!</span>
-                  </div>
-                  <div class="bottom">
-                    <span class="date">2017-5-2 11:11:39</span>
-                    <span class="op" @click.stop="reply()"><a>回复</a></span>
-                  </div>
-                </div>
-                <div class="re-list">
-                  <div class="re-item">
-                    <div class="item">
-                      <div class="info">
-                        <a href="#" class="name">张三 : </a>回复：<a href="#" class="name">张三 : </a>
-                        <span class="content">来啊 造d作啊用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。!</span>
-                      </div>
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                    <div class="item">
-                      <div class="info">
-                        <a href="#" class="name">张三 : </a>回复：<a href="#" class="name">张三 : </a>
-                        <span class="content">来啊 造d作啊用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。!</span>
-                      </div>
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                    <div class="item">
-                      <div class="bottom">
-                        <span class="date">2017-5-2 11:11:39</span>
-                        <span class="op" @click.stop="reply()"><a>回复</a></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--回复区域 end-->
-            <!--<p>流算法的应用场景非常广泛，配置较被上游应用的大量请求击穿，无论是HTTP请求还是RPC请求，从而使得服务保持稳定。限流也同样可以用于客户端，比如当我们需要从微博上爬</p>-->
-            <!--<div class="img">-->
-            <!--<h2>你好，明天</h2>-->
-            <!--&lt;!&ndash;<img style="width:100%;height: 100%" src="http://pc.huangshan.com.cn/static//fileupload/20181227/201812271500208lwckq.jpg" alt="Graphic">&ndash;&gt;-->
-            <!--</div>-->
           </div>
         </div>
       </div>
-      <div class="paging"><button class="btn-pre">Pre</button><button class="btn-next">Next</button></div>
+      <div class="paging">
+        <button class="btn-pre">Pre</button>
+        <button class="btn-next">Next</button>
+      </div>
     </section>
-
   </div>
 </template>
 
 <script>
+  import {mapActions, mapState} from "vuex";
+
   export default {
     name: "Home",
-    data(){
+    data() {
       return {
-        dom:'',
-        replyBtn:true
       }
     },
-    components:{
-
+    components: {},
+    created(){
+      this.initData();
     },
-    methods:{
-      reply(){
-        console.log("s")
-        this.dom =this.replyBtn? '<div class="reply">\n' +
-          '                  <textarea contenteditable="true" class="input" placeholder=""></textarea>\n' +
-          '                  <a href="javascript:;" class="re-submit">评论</a></div>':'';
-        this.replyBtn = !this.replyBtn;
+    computed:{
+      ...mapState({
+        talk: ({talk}) => talk
+      })
+    },
+    methods: {
+      ...mapActions([
+        'reqTalks',
+      ]),
+      initData() {
+        //获取留言列表
+        this.reqTalks({});
+      },
+      reply2Comment(cid) {
+        
+      },
+      reply2Reply(rid) {
+
       }
     },
     mounted() {
@@ -399,47 +94,67 @@
 </script>
 
 
-
 <style lang="stylus">
+  .timeline .card-wrap::after {
+    z-index: 1;
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    border-left: 1px solid rgba(191, 191, 191, 0.4);
+  }
+
+  .timeline .card-wrap::after {
+    border-left: 1px solid #bdbdbd;
+  }
   .comment-show
     display flex;
     justify-content left
     flex-direction row
     line-height: 150%
     .avatar_pic
-      width 95px;
-      height 110px
+      width 55px;
       overflow: hidden;
       margin-top: 2px;
       img
         border-radius 50%
     .rep
       display flex;
+      width 100%
       justify-content left
       flex-direction column
+      margin-left 5px
       .item
+        &:hover
+          .reply-btn
+            transition all .5s ease-in-out
+            opacity 1;
         .info
           margin 5px;
-          font-size: 12px;
+          font-size: 13px;
           .name
             color: #339b53;
             text-decoration none;
           .content
-            color: #8b8b8b;
+            color: #333;
             width: 100%;
-
+            img
+              display: inline;
+              height 20px
+              width 20px
       .bottom
         display: inline-block;
-        font-size: 12px;
+        font-size: 13px;
         color: #8b8b8b;
         margin 5px;
         .date
-          padding-right 198px
+          padding-right 20px
+          font-size: 12px;
         .op
           cursor pointer
-
       .re-list
-        .reply
+         .reply
           .input
             width 100%;
             overflow: hidden;
@@ -466,9 +181,8 @@
             text-align: center;
             color: #FFFFFF;
             text-decoration none
-            font-size: 12px;
+            font-size: 13px;
             border-radius: 5px;
-
         .re-item
           background-color #f8f8f7
           margin 5px
@@ -484,69 +198,31 @@
               background-color: white;
               margin: 0 auto;
             .info
-              font-size: 12px;
+              font-size: 13px;
               .name
                 color: #339b53;
                 text-decoration none;
               .content
-                color: #8b8b8b;
+                color: #333;
                 width: 100%;
+                img
+                  display: inline;
+                  height 20px
+                  width 20px
           .bottom
-            display: inline-block ;
-            font-size: 12px;
+            display: inline-block;
+            font-size: 13px;
             color: #8b8b8b;
             margin 0px 5px 5px 5px;
             .date
-              padding-right 178px
+              padding-right 20px
             .op
               cursor pointe
-  @media (min-width: 1000px) {
-    #timeline .demo-card:nth-child(even) .head::after, #timeline .demo-card:nth-child(odd) .head::after {
-      position: absolute;
-      content: "";
-      width: 0;
-      height: 0;
-      border-top: 15px solid transparent;
-      border-bottom: 15px solid transparent;
-    }
-
-    #timeline .demo-card:nth-child(even) .head::before, #timeline .demo-card:nth-child(odd) .head::before {
-      position: absolute;
-      content: "";
-      width: 9px;
-      height: 9px;
-      background-color: #bdbdbd;
-      border-radius: 9px;
-      box-shadow: 0px 0px 2px 8px #f7f7f7;
-    }
+  .reply-btn{
+    /*display none;*/
+    opacity 0;
   }
-  /* Some Cool Stuff */
-  .demo-card:nth-child(1) {
-    order: 1;
-  }
-
-  .demo-card:nth-child(2) {
-    order: 4;
-  }
-
-  .demo-card:nth-child(3) {
-    order: 2;
-  }
-
-  .demo-card:nth-child(4) {
-    order: 5;
-  }
-
-  .demo-card:nth-child(5) {
-    order: 3;
-  }
-
-  .demo-card:nth-child(6) {
-    order: 6;
-  }
-
-
-  #timeline
+  .timeline
     padding: 100px 0;
     background: #f7f7f7;
     border-top: 1px solid rgba(191, 191, 191, 0.4);
@@ -568,222 +244,97 @@
         transition: all .36s ease-in-out;
         cursor pointer
         outline none
+
         &:hover
           width 160px
           background-color #f44539
+
         &:selection
           width 160px
           background-color #f44539
+
       .btn-pre
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0;
+
       .btn-next
         border-left-color: #ff9089;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
 
-  #timeline h1 {
-    text-align: center;
-    font-size: 3rem;
-    font-weight: 200;
-    margin-bottom: 20px;
-  }
-  #timeline p.leader {
-    text-align: center;
-    max-width: 90%;
-    margin: auto;
-    margin-bottom: 45px;
-  }
-  #timeline .demo-card-wrapper {
-    position: relative;
-    margin: auto;
-  }
-  @media (min-width: 1000px) {
-    #timeline .demo-card-wrapper {
+  .timeline 
+    h1
+      text-align: center;
+      font-size: 3rem;
+      font-weight: 200;
+      margin-bottom: 20px;
+    .leader
+      text-align: center;
+      max-width: 90%;
+      margin: auto;
+      margin-bottom: 45px;
+    .card-wrap
+      position: relative;
       display: flex;
       flex-flow: column wrap;
       width: 1170px;
-      height: 1650px;
       margin: 0 auto;
-    }
-  }
-  #timeline .demo-card-wrapper::after {
-    z-index: 1;
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    border-left: 1px solid rgba(191, 191, 191, 0.4);
-  }
-  @media (min-width: 1000px) {
-    #timeline .demo-card-wrapper::after {
-      border-left: 1px solid #bdbdbd;
-    }
-  }
-  #timeline .demo-card {
-    position: relative;
-    display: block;
-    margin: 10px auto 80px;
-    max-width: 94%;
-    z-index: 2;
-  }
-  @media (min-width: 480px) {
-    #timeline .demo-card {
-      max-width: 60%;
-      box-shadow: 0px 1px 22px 4px rgba(0, 0, 0, 0.07);
-    }
-  }
-  @media (min-width: 720px) {
-    #timeline .demo-card {
-      max-width: 40%;
-    }
-  }
-  @media (min-width: 1000px) {
-    #timeline .demo-card {
-      max-width: 450px;
-      margin: 90px;
-      margin-top: 45px;
-      margin-bottom: 45px;
-    }
-    #timeline .demo-card:nth-child(odd) {
-      margin-right: 45px;
-    }
-    #timeline .demo-card:nth-child(odd) .head::after {
-      border-left-width: 15px;
-      border-left-style: solid;
-      left: 100%;
-    }
-    #timeline .demo-card:nth-child(odd) .head::before {
-      left: 491.5px;
-    }
-    #timeline .demo-card:nth-child(even) {
-      margin-left: 45px;
-    }
-    #timeline .demo-card:nth-child(even) .head::after {
-      border-right-width: 15px;
-      border-right-style: solid;
-      right: 100%;
-    }
-    #timeline .demo-card:nth-child(even) .head::before {
-      right: 489.5px;
-    }
-    #timeline .demo-card:nth-child(2) {
-      margin-top: 180px;
-    }
-  }
-  #timeline .demo-card .head {
-    position: relative;
-    display: flex;
-    align-items: center;
-    color: #fff;
-    font-weight: 400;
-  }
-  #timeline .demo-card .head .number-box {
-    display: inline;
-    float: left;
-    margin: 15px;
-    padding: 10px;
-    font-size: 35px;
-    line-height: 35px;
-    font-weight: 600;
-    background: rgba(0, 0, 0, 0.17);
-  }
-  #timeline .demo-card .head h2 {
-    text-transform: uppercase;
-    font-size: 1.3rem;
-    font-weight: inherit;
-    letter-spacing: 2px;
-    margin: 0;
-    padding-bottom: 6px;
-    line-height: 1rem;
-    overflow: hidden;  /*溢出隐藏*/
-    text-overflow: ellipsis; /*以省略号...显示*/
-    white-space: nowrap;  /*强制不换行*/
-    width: 100%;  /*必须设置宽度*/
-  }
-  @media (min-width: 480px) {
-    #timeline .demo-card .head h2 {
-      font-size: 165%;
-      line-height: 1.2rem;
-    }
-  }
-  #timeline .demo-card .head h2 span {
-    display: block;
-    font-size: 0.6rem;
-    margin: 0;
-  }
-  @media (min-width: 480px) {
-    #timeline .demo-card .head h2 span {
-      font-size: 0.8rem;
-    }
-  }
-  #timeline .demo-card .body {
-    background: #fff;
-    border: 1px solid rgba(191, 191, 191, 0.4);
-    border-top: 0;
-    padding: 15px;
-  }
-  @media (min-width: 1000px) {
-    #timeline .demo-card .body {
-    }
-    .img{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      background-image url("https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=152ab92dbd3eb13544c7b0bd9e25cfee/58ee3d6d55fbb2fbd636cdd74e4a20a44723dcd2.jpg")
-      width 100%
-      height 210px
-      /*background-repeat no-repeat*/
-      /*background-size 100% 100%*/
-      /*-moz-background-size 100% 100%*/
-      h2 {
-        color: #ffffff;
-        font-family: 'Roboto';
-        position: absolute;
-        bottom: 5px;
-        left: 20px;
-      }
-    }
-  }
-  #timeline .demo-card .body p {
-    font-size: 14px;
-    line-height: 18px;
-    margin-bottom: 15px;
-  }
-  #timeline .demo-card .body img {
-    display: block;
-    width: 100%;
-  }
-  #timeline .demo-card--step1 {
-    background-color: #46b8e9;
-  }
-  #timeline .demo-card--step1 .head::after {
-    border-color: #46b8e9;
-  }
-  #timeline .demo-card--step2 {
-    background-color: #3ee9d1;
-  }
-  #timeline .demo-card--step2 .head::after {
-    border-color: #3ee9d1;
-  }
-  #timeline .demo-card--step3 {
-    background-color: #ce43eb;
-  }
-  #timeline .demo-card--step3 .head::after {
-    border-color: #ce43eb;
-  }
-  #timeline .demo-card--step4 {
-    background-color: #4d92eb;
-  }
-  #timeline .demo-card--step4 .head::after {
-    border-color: #4d92eb;
-  }
-  #timeline .demo-card--step5 {
-    background-color: #46b8e9;
-  }
-  #timeline .demo-card--step5 .head::after {
-    border-color: #46b8e9;
+      .card
+        background-color: #46b8e9;
+        position: relative;
+        display: block;
+        margin: 0px auto 50px;
+        z-index: 2;
+        width: 800px;
+        .head
+          position: relative;
+          display: flex;
+          align-items: center;
+          color: #fff;
+          font-weight: 400;
+          .number-box
+            display: inline;
+            float: left;
+            margin: 15px;
+            padding: 10px;
+            font-size: 35px;
+            line-height: 35px;
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.17);
+          h2
+            text-transform: uppercase;
+            font-size: 1.3rem;
+            font-weight: inherit;
+            letter-spacing: 2px;
+            margin: 0;
+            padding-bottom: 6px;
+            line-height: 1rem;
+            overflow: hidden; /*溢出隐藏*/
+            text-overflow: ellipsis; /*以省略号...显示*/
+            white-space: nowrap; /*强制不换行*/
+            width: 100%; /*必须设置宽度*/
+            span
+              display: block;
+              font-size: 13px;
+              margin-bottom: 5px;
+        .body
+          background: #fff;
+          border: 1px solid rgba(191, 191, 191, 0.4);
+          border-top: 0;
+          padding 15px 15px 8px 15px;
+          p
+            font-size: 14px;
+            line-height: 18px;
+            margin-bottom: 15px;
+          img
+            display: block;
+            width: 100%;
+  .iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
 </style>

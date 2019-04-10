@@ -16,14 +16,14 @@ const actions = {
     const result = await getArticle(params);
     commit(ARTICLE_LIST, {items: result.data.records, total: result.data.total});
   }
-}
+};
 
 const mutations = {
   [ARTICLE_LIST](state, action){
     state.items = action.items;
     state.total = action.total;
   }
-}
+};
 
 export default {
   state,
