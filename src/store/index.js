@@ -9,6 +9,7 @@ import talk from './modules/talk'
 import state from './state'
 import mutations from "./mutations";
 import actions from "./actions";
+import reply from "./modules/reply";
 
 //1.使用VUEX
 Vue.use(Vuex);
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     articleList,
     tab,
     articleDetail,
-    talk
+    talk,
+    reply
   }
 })

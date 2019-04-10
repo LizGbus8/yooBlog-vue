@@ -177,6 +177,9 @@
             'website': this.website,
             'content': this.content
           };
+          if (typeof this.$store.state.component.id != 'undifined' ) {
+            params.id =  this.$store.state.component.id;
+          }
           //后台提交
           this.$store.dispatch(this.$store.state.component.action, {
             'params': qs.stringify(params), 'callback': (result) => {
@@ -199,10 +202,7 @@
               }
             }
           });
-          // this.$store.state.component.action(qs.stringify(params), function(){
 
-
-          // });
         }else {
           let tip = this.tip;
           this.tip = {'nickName':"提示还有问题哦"}

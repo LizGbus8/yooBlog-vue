@@ -23,7 +23,7 @@
                   </div>
                   <div class="bottom">
                     <span class="date">{{item.createdTime | formatDate}}<i class="iconfont" style="padding-left: 5px">&#xe768;</i>{{item.address}}</span>
-                    <span class="op" @click.stop="reply2Comment(item.cid)"><a class="reply-btn"><i class="iconfont" style="font-size: 12px">&#xe644;</i></a></span>
+                    <span class="op" @click.stop="reply2Comment(item.cid, item.fromName)"><a class="reply-btn"><i class="iconfont" style="font-size: 12px">&#xe644;</i></a></span>
                   </div>
                 </div>
                 <div class="re-list">
@@ -35,7 +35,7 @@
                       </div>
                       <div class="bottom">
                         <span class="date">{{item_reply.createdTime | formatDate}}<i class="iconfont" style="padding-left: 5px">&#xe768;</i>{{item.address}}</span>
-                        <span class="op" @click="reply2Reply(item_reply.rid)"><a class="reply-btn"><i class="iconfont" style="font-size: 12px">&#xe644;</i></a></span>
+                        <span class="op" @click="reply2Reply(item_reply.rid,item_reply.fromName)"><a class="reply-btn"><i class="iconfont" style="font-size: 12px">&#xe644;</i></a></span>
                       </div>
                     </div>
                   </div>
@@ -80,11 +80,37 @@
         //获取留言列表
         this.reqTalks({});
       },
-      reply2Comment(cid) {
-        
+      showReply(params) {
+        //重复点击
+        if (params.name == this.$store.state.component.name) {
+          this.$store.dispatch("setComponent", {})
+        } else {
+          this.$store.dispatch("setComponent", params)
+        }
       },
-      reply2Reply(rid) {
-
+      reply2Comment(cid, name) {
+        //1.组合参数
+        let params = {
+          'name': 'reply',//Layout显示的组件
+          'action': 'reqReply2Comment',//添加留言API
+          'placeholder': '@'+ name,//文本框提示
+          'submitDesc': '回复',//提交按钮文字
+          'id': cid //cid或者rid
+        };
+        //2.弹出回复框
+        this.showReply(params);
+      },
+      reply2Reply(rid,name) {
+        //1.组合参数
+        let params = {
+          'name': 'reply',//Layout显示的组件
+          'action': 'reqReply2Reply',//添加留言API
+          'placeholder': '@'+ name,//文本框提示
+          'submitDesc': '回复',//提交按钮文字
+          'id': rid //cid或者rid
+        };
+        //2.弹出回复框
+        this.showReply(params);
       }
     },
     mounted() {
