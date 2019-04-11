@@ -20,6 +20,9 @@ export const getTalks = (params) => ajax(BASE_URL + '/talks',params);
 //添加留言
 export const addTalk = (params) => ajax(BASE_URL + '/talk', params,'POST');
 
+//添加文章评论
+export const addArticleComment = (params) => ajax(BASE_URL + '/article/comment', params,'POST');
+
 //添加评论回复
 export const addReply2Comment = (params) => ajax(BASE_URL + '/reply/comment', params,'POST');
 

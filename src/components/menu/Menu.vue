@@ -31,18 +31,26 @@
         } else {
           let path = this.$route.fullPath;
           let placeholder;
-          //判断路由
+          let params;
+          //主页和留言页面
           if (path.indexOf('/home') != -1 || path.indexOf('/talk') != -1) {
-            placeholder = "给我留言吧(￣▽￣)~*"
+            placeholder = "给我留言吧(￣▽￣)~*";
+            params = {
+              'name': option,//Layout显示的组件
+              'action': 'reqTalk',//添加留言API
+              'placeholder': placeholder,//文本框提示
+              'submitDesc': '留言'//提交按钮文字
+            };
+          //文章详情页面
           } else if (path.indexOf('/detail') != -1) {
-            placeholder = "快给文章评论吧(￣▽￣)~*"
-          }
-          console.log(option);
-          let params = {
-            'name': option,//Layout显示的组件
-            'action': 'reqTalk',//添加留言API
-            'placeholder': placeholder,//文本框提示
-            'submitDesc': '留言'//提交按钮文字
+            placeholder = "快给文章评论吧(￣▽￣)~*";
+            params = {
+              'name': option,//Layout显示的组件
+              'action': 'reqArticleComment',//添加留言API
+              'placeholder': placeholder,//文本框提示
+              'submitDesc': '评论',//提交按钮文字
+              'id': path.substring(path.lastIndexOf('/'),path.length)
+            };
           }
           this.$store.dispatch("setComponent", params)
         }

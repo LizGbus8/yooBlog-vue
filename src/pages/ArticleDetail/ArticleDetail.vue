@@ -36,22 +36,29 @@
           <div class="comments-items" v-if="articleDetail.comments">
             <div class="comments-item" v-for="(item_comment, index) in articleDetail.comments">
               <figure class="comments-item__avatar"><img
-                src="@/assets/image/img123.png" alt="item_comment.fromName"></figure>
+                :src="item_comment.fromAvatar"></figure>
               <div class="comment-item__body">
                 <div class="comment-item__info">
                   <strong class="comment-item__nick">{{item_comment.fromName}}</strong>
-                  <time class="comment-item__time">{{item_comment.createdTime | formatDate}}&nbsp;&nbsp;<i class="iconfont" style="padding-left: 5px">&#xe768;</i>{{item_comment.address}}</time>
-                  <span class="comment-item__reply-btn"></span>
+                  <time class="comment-item__time">{{item_comment.createdTime | formatDate}}&nbsp;&nbsp;<i
+                    class="iconfont" style="padding-left: 5px">&#xe768;</i>{{item_comment.address}}
+                  </time>
+                  <span class="comment-item__reply-btn"><i @click.stop="reply2Comment(item_comment.cid, item_comment.fromName)" class="iconfont" style="padding-left: 10px;font-size: 13px">&#xe644;</i></span>
                   <span class="comment-item__floor"><sup>{{item_comment.floor}}楼</sup></span></div>
-                <div class="comment-item__content">
-                  {{item_comment.content}}
+                <div class="comment-item__content" >
+                  <span v-html="item_comment.content"></span>
                 </div>
                 <div class="comment-item__quote" v-for="(item_reply, index) in item_comment.replies">
-                  <div class="comment-item__info"><strong class="comment-item__nick">{{item_reply.fromName}}</strong>&nbsp;回复 &nbsp;<strong class="comment-item__nick">{{item_reply.toName}}</strong>
-                    <time class="comment-item__time">{{item_reply.createdTime | formatDate}}&nbsp;&nbsp;<i class="iconfont" style="padding-left: 5px">&#xe768;</i>{{item_reply.address}}</time>
+                  <div class="comment-item__info"><strong class="comment-item__nick">{{item_reply.fromName}}</strong>&nbsp;回复
+                    &nbsp;<strong class="comment-item__nick">{{item_reply.toName}}</strong>
+                    <time class="comment-item__time">{{item_reply.createdTime | formatDate}}&nbsp;&nbsp;<i
+                      class="iconfont" style="padding-left: 5px">&#xe768;</i>{{item_reply.address}}
+                    </time>
+                    <span class="comment-item__reply-btn"><i @click="reply2Reply(item_reply.rid,item_reply.fromName)" class="iconfont"
+                                                             style="padding-left: 10px;font-size: 13px">&#xe644;</i></span>
                   </div>
                   <div class="comment-item__content">
-                    {{item_reply.content}}
+                    <span v-html="item_reply.content"></span>
                   </div>
                 </div>
               </div>
@@ -97,6 +104,38 @@
         this.reqArticle(aId);
         //获取评论信息
         this.reqComments({ownerId:aId});
+      },
+      showReply(params) {
+        //重复点击
+        if (params.name == this.$store.state.component.name) {
+          this.$store.dispatch("setComponent", {})
+        } else {
+          this.$store.dispatch("setComponent", params)
+        }
+      },
+      reply2Comment(cid, name) {
+        //1.组合参数
+        let params = {
+          'name': 'reply',//Layout显示的组件
+          'action': 'reqReply2Comment',//添加留言API
+          'placeholder': '@'+ name,//文本框提示
+          'submitDesc': '回复',//提交按钮文字
+          'id': cid //cid或者rid
+        };
+        //2.弹出回复框
+        this.showReply(params);
+      },
+      reply2Reply(rid,name) {
+        //1.组合参数
+        let params = {
+          'name': 'reply',//Layout显示的组件
+          'action': 'reqReply2Reply',//添加留言API
+          'placeholder': '@'+ name,//文本框提示
+          'submitDesc': '回复',//提交按钮文字
+          'id': rid //cid或者rid
+        };
+        //2.弹出回复框
+        this.showReply(params);
       }
     }
   }
@@ -199,6 +238,13 @@
             justify-content center
             padding 0 0 0 10px
             flex auto
+            .comment-item__reply-btn
+              opacity 0;
+              cursor pointer
+            &:hover
+              .comment-item__reply-btn
+                transition all .5s ease-in-out
+                opacity 1;
             .comment-item__info
               height 30px
               vertical-align center
@@ -217,6 +263,10 @@
               flex-direction column
               justify-content center
               margin-bottom 8px
+              img
+                display: inline;
+                height 20px
+                width 20px
             .comment-item__quote
               background-color #f8f8f7
               padding 16px

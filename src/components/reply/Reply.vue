@@ -1,7 +1,15 @@
 <template>
   <div class="box">
-    <div class="reply-box">
-    <div class="reply">
+    <div class="buttons" ref="btns">
+      <button title="关闭" class="close" @click.stop="close">
+      </button>
+      <button title="隐藏" class="minimize" @click="down">
+      </button>
+      <button title="显示" class="maximize" @click="up">
+      </button>
+    </div>
+    <div class="reply-box" ref="replybox">
+      <div class="reply">
       <div class="info">
         <input placeholder="昵称" v-model="nickName" @blur="validate('nickName')"></input>
         <input placeholder="邮箱" v-model="email" @blur="validate('email')"></input>
@@ -113,7 +121,7 @@
         <div class="op"><button @click="submit">{{this.$store.state.component.submitDesc}}</button></div>
       </div>
     </div>
-  </div>
+    </div>
   </div>
 </template>
 
@@ -138,6 +146,17 @@
 
     },
     methods:{
+      close(){
+        this.$store.dispatch("setComponent", {})
+      },
+      down(){
+        this.$refs.replybox.style.top = '95%';
+        this.$refs.btns.style.top = '92.5%';
+      },
+      up(){
+        this.$refs.replybox.style.top = '46%';
+        this.$refs.btns.style.top = '43.5%';
+      },
       validate(val) {
         //昵称长度需要大于0
         if (val === 'nickName') {
@@ -177,6 +196,7 @@
             'website': this.website,
             'content': this.content
           };
+          //id为可变字段，可能为rid、cid、ownerId
           if (typeof this.$store.state.component.id != 'undifined' ) {
             params.id =  this.$store.state.component.id;
           }
@@ -218,6 +238,29 @@
 
 <style scoped lang="stylus">
   .box
+    .buttons
+      position fixed
+      margin 0 8px
+      top 43.5%
+      left 28%
+      outline none
+      transition: all 0.5s ease 0s;
+      button
+        outline none
+        padding: 0;
+        margin: 0;
+        margin-right: 4px;
+        width: 13px;
+        height: 13px;
+        border: 1px solid rgba(0,0,0,0.2);
+        border-radius: 50%;
+        color: rgba(0,0,0,0.5);
+      .close
+        background-color #ff6159
+      .minimize
+        background-color #ffbf2f
+      .maximize
+        background-color #25cc3e
     .reply-box
       text-align:center;
       margin auto
@@ -234,8 +277,9 @@
       border-bottom-right-radius: 4px;
       border-top-left-radius: 4px;
       border-top-right-radius: 4px;
-      right: 28%;
+      left: 28%;
       top: 46%;
+      transition: all 0.5s ease 0s;
       .reply
         .info
           font-size 14px

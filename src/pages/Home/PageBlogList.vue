@@ -17,7 +17,7 @@
         <div class="info">
             <span class="bottom">
               <span class="praise">
-                <span class="wrap"><i class="iconfont">&#xe64f;</i></span>
+                <span class="wrap"><i class="iconfont">&#xe693;</i></span>
                 <span v-if="item.starCount > 0">
                   <span class="unit">x</span>
                   <span class="praisenums">{{item.starCount}}</span>
