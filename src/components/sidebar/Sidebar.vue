@@ -46,7 +46,8 @@
 </template>
 
 <script>
-  import {mapActions, mapState} from "vuex";
+  import {mapActions} from "vuex";
+  import {getAllTab} from "../../api";
 
   export default {
     name: "Sidebar",
@@ -68,32 +69,26 @@
     created() {
       this.initData();
     },
-    computed: {
-      ...mapState({
-        tab: ({tab}) => tab
-      }),
-    },
-    updated() {
-
-    },
     methods: {
       ...mapActions([
-        'reqTabs',
         'reqArticles'
       ]),
       initData() {
-        this.reqTabs(()=>{
+        //不用vuex，直接调用接口
+        getAllTab().then((res)=>{
+          window.localStorage.setItem('tabs', JSON.stringify(res.data));
           this.technologyClass.forEach(v=>{
-            v.children = this.$store.state.tab.tabs.filter(e=>e.catId == v.id);
-          })
+            v.children = res.data.filter(e=>e.catId == v.id);
+          });
         });
-      },
 
+      },
+      //处理点击
       handleClick(op, item) {
         this.activeItem = item.id;
         item.showContent = !item.showContent;
       },
-
+      //改变文章列表
       changeArticleList(tId){
         this.activeTab = tId;
         this.reqArticles({tId: tId, currentPage: this.currentPage, size: this.size});

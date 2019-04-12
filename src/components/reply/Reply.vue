@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box" v-loading="false">
     <div class="buttons" ref="btns">
       <button title="关闭" class="close" @click.stop="close">
       </button>
@@ -8,7 +8,7 @@
       <button title="显示" class="maximize" @click="up">
       </button>
     </div>
-    <div class="reply-box" ref="replybox">
+    <div class="reply-box" ref="replybox" v-loading="this.loading">
       <div class="reply">
       <div class="info">
         <input placeholder="昵称" v-model="nickName" @blur="validate('nickName')"></input>
@@ -139,7 +139,8 @@
         nickName:'',
         email:'',
         website:'',
-        pass:false
+        pass:false,
+        loading:false
       }
     },
     computed:{
@@ -185,6 +186,7 @@
         this.$refs.textarea.textContent = '';
       },
       submit(){
+        this.loading=true;
         //再次验证
         const reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
         //所有input格式都正确
@@ -203,10 +205,12 @@
           //后台提交
           this.$store.dispatch(this.$store.state.component.action, {
             'params': qs.stringify(params), 'callback': (result) => {
-              //隐藏回复组件
-              this.$store.dispatch("setComponent", {});
+              this.loading=false;
               //留言添加成功
-              if (result.code == 0) {
+              if (result.code === 0) {
+                //隐藏回复组件
+                this.$store.dispatch("setComponent", {});
+                //提示
                 this.$message({
                   type:'success',
                   center:true,
@@ -214,6 +218,7 @@
                 });
               //留言添加失败
               }else {
+                this.loading=false;
                 this.$message({
                   type:'error',
                   center:true,

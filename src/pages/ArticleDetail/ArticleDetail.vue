@@ -87,8 +87,7 @@
       }),
       tabDesc() {
         return function (tabId) {
-          const tabs = this.$store.state.tab.tabs.filter(e=>e.tid == tabId);
-          console.log(tabs);
+          const tabs = JSON.parse(localStorage.getItem('tabs')).filter(e=>e.tid == tabId);
           return tabs.length > 0 ? tabs[0].description : 'null';
         }
       }

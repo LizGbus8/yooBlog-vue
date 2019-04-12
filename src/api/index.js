@@ -28,3 +28,6 @@ export const addReply2Comment = (params) => ajax(BASE_URL + '/reply/comment', pa
 
 //添加子回复回复
 export const addReply2Reply = (params) => ajax(BASE_URL + '/reply/reply', params,'POST');
+
+//添加子回复回复
+export const getRecords = (params) => ajax(BASE_URL + '/records', params, 'GET');

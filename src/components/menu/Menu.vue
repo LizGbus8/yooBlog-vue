@@ -33,7 +33,7 @@
           let placeholder;
           let params;
           //主页和留言页面
-          if (path.indexOf('/home') != -1 || path.indexOf('/talk') != -1) {
+          if (path.indexOf('/home') != -1 || path.indexOf('/talk') != -1 || path.indexOf('/record') != -1) {
             placeholder = "给我留言吧(￣▽￣)~*";
             params = {
               'name': option,//Layout显示的组件
@@ -49,7 +49,7 @@
               'action': 'reqArticleComment',//添加留言API
               'placeholder': placeholder,//文本框提示
               'submitDesc': '评论',//提交按钮文字
-              'id': path.substring(path.lastIndexOf('/'),path.length)
+              'id': path.substring(path.lastIndexOf('/') + 1,path.length)
             };
           }
           this.$store.dispatch("setComponent", params)

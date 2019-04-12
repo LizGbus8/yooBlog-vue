@@ -17,7 +17,7 @@
         <div class="info">
             <span class="bottom">
               <span class="praise">
-                <span class="wrap"><i class="iconfont">&#xe693;</i></span>
+                <span class="wrap"><i class="iconfont">&#xeb97;</i></span>
                 <span v-if="item.starCount > 0">
                   <span class="unit">x</span>
                   <span class="praisenums">{{item.starCount}}</span>
@@ -64,12 +64,12 @@
     },
     computed: {
       ...mapState({
-        articleList: ({articleList}) => articleList,
-        tab: ({tab}) => tab
+        articleList: ({articleList}) => articleList
       }),
       tabDesc() {
         return function (tabId) {
-          return this.$store.state.tab.tabs.filter(e=>e.tid == tabId)[0].description;
+          const tabs =JSON.parse(localStorage.getItem('tabs'));
+          return tabs.filter(e=>e.tid == tabId)[0].description;
         }
       }
     },

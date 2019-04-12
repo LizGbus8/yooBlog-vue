@@ -4,7 +4,6 @@ import {
 } from '@/api';
 
 import {
-  ARTICLE_COMMENT,
   ARTICLE_DETAIL,
   COMMENTS
 } from '../mutation-types'
@@ -26,8 +25,13 @@ const actions = {
   },
   async reqArticleComment({commit}, object) {
     const result = await addArticleComment(object.params);
-    console.log("article:" + this.article);
-    console.log("comments:" + this.comments);
+    //评论添加成功
+    if (result.code == 0) {
+      //评论数增1
+      state.article.reply++;
+      //加上添加的评论
+      state.comments.unshift(result.data)
+    }
     object.callback && object.callback(result);
   },
 };

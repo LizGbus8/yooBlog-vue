@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 
 import getters from './getters'
 import articleList from './modules/article.list'
-import tab from './modules/tab'
 import articleDetail from './modules/article.detail'
 import talk from './modules/talk'
 import state from './state'
@@ -21,7 +20,6 @@ export default new Vuex.Store({
   state,
   modules: {
     articleList,
-    tab,
     articleDetail,
     talk,
     reply
