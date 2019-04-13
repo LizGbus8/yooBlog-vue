@@ -1,10 +1,10 @@
 <template>
   <div class="mood">
-    <section class="timeline">
+    <section class="timeline" v-loading="this.$store.state.talk.loading">
       <h1>你今天有穿品如的衣服吗.</h1>
       <p class="leader">All cards must be the same height and width for space calculations on large screens.</p>
       <div class="card-wrap" v-if="talk.talks">
-        <div class="card" v-for="(item, index) in talk.talks">
+        <div class="card" v-for="(item) in talk.talks">
           <div class="head">
             <div class="number-box">
               <span>{{item.floor}}</span>
@@ -47,8 +47,7 @@
         </div>
       </div>
       <div class="paging">
-        <button class="btn-pre">Pre</button>
-        <button class="btn-next">Next</button>
+        <button class="btn-more" @click="more" v-show="this.hasMore">加载更多...</button>
       </div>
     </section>
   </div>
@@ -61,6 +60,7 @@
     name: "Home",
     data() {
       return {
+        hasMore: true
       }
     },
     components: {},
@@ -75,10 +75,26 @@
     methods: {
       ...mapActions([
         'reqTalks',
+        'updateTalks'
       ]),
       initData() {
-        //获取留言列表
-        this.reqTalks({});
+        //current为0,说明没有初始化数据
+        if (this.$store.state.talk.current === 0) {
+          this.reqTalks((res) => {
+            if (res.data === null || res.data.length < 10) {
+              this.hasMore = false;
+            }
+          });
+        }
+      },
+      more() {
+        this.hasMore = false;//防止重复点击
+        this.reqTalks((res) => {
+          this.hasMore = true;//防止重复点击
+          if (res.data === null || res.data.length < 10) {
+            this.hasMore = false;
+          }
+        });
       },
       showReply(params) {
         //重复点击
@@ -91,11 +107,12 @@
       reply2Comment(cid, name) {
         //1.组合参数
         let params = {
-          'name': 'reply',//Layout显示的组件
-          'action': 'reqReply2Comment',//添加留言API
-          'placeholder': '@'+ name,//文本框提示
-          'submitDesc': '回复',//提交按钮文字
-          'id': cid //cid或者rid
+          name: 'reply',//Layout显示的组件
+          action: 'reqReply2Comment',//添加留言API
+          placeholder: '@'+ name,//文本框提示
+          submitDesc: '回复',//提交按钮文字
+          id: cid, //cid或者rid
+          updateAction: this.updateTalks
         };
         //2.弹出回复框
         this.showReply(params);
@@ -103,11 +120,12 @@
       reply2Reply(rid,name) {
         //1.组合参数
         let params = {
-          'name': 'reply',//Layout显示的组件
-          'action': 'reqReply2Reply',//添加留言API
-          'placeholder': '@'+ name,//文本框提示
-          'submitDesc': '回复',//提交按钮文字
-          'id': rid //cid或者rid
+          name: 'reply',//Layout显示的组件
+          action: 'reqReply2Reply',//添加留言API
+          placeholder: '@'+ name,//文本框提示
+          submitDesc: '回复',//提交按钮文字
+          id: rid, //cid或者rid
+          updateAction: this.updateTalks
         };
         //2.弹出回复框
         this.showReply(params);
@@ -278,15 +296,8 @@
         &:selection
           width 160px
           background-color #f44539
-
-      .btn-pre
-        border-top-right-radius: 0px;
-        border-bottom-right-radius: 0;
-
-      .btn-next
+      .btn-more
         border-left-color: #ff9089;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
 
   .timeline 
     h1

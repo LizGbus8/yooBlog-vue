@@ -126,7 +126,6 @@
 </template>
 
 <script>
-  import {addTalk} from "../../api";
   import qs from "qs";
 
   export default {
@@ -186,11 +185,12 @@
         this.$refs.textarea.textContent = '';
       },
       submit(){
-        this.loading=true;
         //再次验证
         const reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
         //所有input格式都正确
         if (this.nickName.length >0 && reg.test(this.email) && this.content.length >0) {
+          this.loading=true;
+
           //获取参数
           const params = {
             'nickName': this.nickName,
@@ -200,14 +200,18 @@
           };
           //id为可变字段，可能为rid、cid、ownerId
           if (typeof this.$store.state.component.id != 'undifined' ) {
-            params.id =  this.$store.state.component.id;
+            params.id = this.$store.state.component.id;
           }
           //后台提交
           this.$store.dispatch(this.$store.state.component.action, {
-            'params': qs.stringify(params), 'callback': (result) => {
+            params: qs.stringify(params), callback: (result) => {
+
               this.loading=false;
               //留言添加成功
               if (result.code === 0) {
+                //更新store数据
+                this.$store.state.component.updateAction(result)
+
                 //隐藏回复组件
                 this.$store.dispatch("setComponent", {});
                 //提示

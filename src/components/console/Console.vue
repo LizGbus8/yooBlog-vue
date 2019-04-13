@@ -82,7 +82,6 @@
 <style scoped lang="stylus">
   *
     box-sizing border-box
-
   textarea,
   input,
   button

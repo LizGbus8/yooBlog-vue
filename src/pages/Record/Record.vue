@@ -1,5 +1,5 @@
 <template>
-  <div class="record">
+  <div class="record" v-loading="this.loading">
     <article v-for="(year) in years">
       <h3>{{year}}</h3>
       <section v-for="(record) in annual_record[year]">
@@ -15,6 +15,7 @@
         </aside>
       </section>
     </article>
+    <div class="more" @click="more" v-show="this.showMore">加载更多...</div>
   </div>
 </template>
 
@@ -26,7 +27,11 @@
     data(){
       return {
         annual_record: {},
-        years:[]
+        years:[],
+        loading:true,
+        current:1,
+        showMore:true,
+        moreLoading:false
       }
     },
     computed:{
@@ -40,22 +45,59 @@
     methods:{
       initData(){
         //1.请求api
-        getRecords().then((res)=>{
+        getRecords({current:this.current}).then((res)=>{
           //2.处理请求结果
           if (res.code === 0) {
+            //2.2处理
             let records = res.data.records;
             const years = records.map((record) => {
               return record.createdTime.year;
             });
-            this.years = new Set(years);
+            this.years = this.unique(years);
             this.years.forEach(year => {
               this.annual_record[year] = records.filter(record => record.createdTime.year === year);
-            })
-            console.log(this.years);
+            });
+            this.loading = false;
           }
         })
-
-        console.log(this.annual_record);
+      },
+      more() {
+        this.showMore = false;//防重复点击
+        this.current++;
+        //1.请求api
+        getRecords({current:this.current}).then((res)=>{
+          this.showMore = true;//防重复点击
+          if (this.current >= res.data.pages) {
+            this.showMore = false;
+          }
+          if (res.code === 0) {
+            let records = res.data.records;
+            //筛选年份
+            const years = records.map((record) => {
+              return record.createdTime.year;
+            });
+            //年份去重
+            this.years = this.unique(this.years.concat(years));
+            
+            this.years.forEach(year => {
+              console.log(this.annual_record[year])
+              if (typeof this.annual_record[year] === 'undefined') {
+                this.annual_record[year] = records.filter(record => record.createdTime.year === year);
+              }else {
+                this.annual_record[year] = this.annual_record[year].concat(records.filter(record => record.createdTime.year === year));
+              }
+            });
+          }
+        });
+      },
+      unique(arr){
+        const res = [];
+        for(let i=0; i<arr.length; i++){
+          if(res.indexOf(arr[i]) == -1){
+            res.push(arr[i]);
+          }
+        }
+        return res;
       }
     }
   }
@@ -104,6 +146,7 @@
     color #9f9f9f
     background #fff
     font-size 1.16em
+    min-height 100px
     font-family 'Lato', Calibri, Arial, sans-serif
     article
       position relative
@@ -148,4 +191,11 @@
             text-decoration none
 
 
+    .more
+      display flex
+      justify-content center
+      cursor pointer
+      transition all .2s linear;
+      &:hover
+        color $theme
 </style>

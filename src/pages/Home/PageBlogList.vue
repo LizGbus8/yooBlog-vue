@@ -1,7 +1,7 @@
 <template>
   <div>
     <Console></Console>
-    <ul class="page-blog-list">
+    <ul class="page-blog-list" v-loading="this.$store.state.articleList.loading">
       <li class="blog-item" v-for="(item, index) in articleList.items" :key="index" @click="toDetail(item.aid)">
         <div class="article">
           <div class="content">
@@ -11,8 +11,7 @@
             <p class="title">{{item.title}}</p>
             <p class="body">{{item.content}}</p>
           </div>
-          <div class="img" :style="`background-image: url(${require('@/assets/image/B01/b1.png')})`">
-          </div>
+          <img class="img" src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1378747050,2045184536&fm=26&gp=0.jpg">
         </div>
         <div class="info">
             <span class="bottom">
@@ -98,7 +97,7 @@
   .page-blog-list
     font-size $fontSize3;
     padding-left 0px
-
+    min-height 60px
     li
       list-style none
       transition all .2s linear;
@@ -224,5 +223,6 @@
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
 
 </style>

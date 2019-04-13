@@ -1,14 +1,22 @@
-import {ARTICLE_DETAIL, TALKS} from "../mutation-types";
+import {TALKS} from "../mutation-types";
 import {addTalk, getTalks} from "../../api";
 
 const state = {
-  talks:null
+  talks:[],
+  loading:true,
+  current: 0,//当前页
 };
 
 const actions = {
-  async reqTalks({commit}, params) {
-    const result = await getTalks(params);
-    commit(TALKS, {talks: result.data});
+  async reqTalks({commit}, callback) {
+    state.current++;
+    const result = await getTalks({current: state.current});
+    //成功返回
+    if (result.code === 0 && result.data !== null) {
+      commit(TALKS, {talks: state.talks.concat(result.data)});
+      state.loading = false;
+    }
+    callback && callback(result);
   },
   async reqTalk({commit}, object) {
     const result = await addTalk(object.params);
@@ -20,7 +28,15 @@ const actions = {
       state.talks.pop();
     }
     object.callback && object.callback(result);
-  }
+  },
+  async updateTalks({commit}, param) {
+    let reply = param.data;
+    state.talks.forEach((talk) => {
+      if (talk.cid == reply.commentsId) {
+        talk.replies.push(reply);
+      }
+    })
+  },
 };
 
 const mutations = {

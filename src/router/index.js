@@ -5,8 +5,9 @@ import Home from '@/pages/Home/Home'
 import ArticleDetail from '@/pages/ArticleDetail/ArticleDetail'
 import Talk from '@/pages/Talk/Talk'
 import Record from '@/pages/Record/Record'
+import ERR_404 from '@/components/error/err_404'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -35,6 +36,11 @@ export default new Router({
           path: '/talk',
           name: 'Talk',
           component: Talk
+        },
+        {
+          path: '*',
+          name: 'err_404',
+          component: ERR_404
         }
       ]
     }

@@ -34,6 +34,16 @@ const actions = {
     }
     object.callback && object.callback(result);
   },
+  async updateArticleComment({commit}, param) {
+    console.log(param)
+    let reply = param.data;
+    state.comments.forEach((comment) => {
+      if (comment.cid == reply.commentsId) {
+        comment.replies.push(reply);
+      }
+    })
+
+  },
 };
 
 const mutations = {

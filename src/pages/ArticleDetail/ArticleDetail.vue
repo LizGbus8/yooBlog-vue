@@ -95,7 +95,8 @@
     methods:{
       ...mapActions([
         'reqArticle',
-        'reqComments'
+        'reqComments',
+        'updateArticleComment'
       ]),
       initData(){
         //获取文章信息
@@ -115,11 +116,12 @@
       reply2Comment(cid, name) {
         //1.组合参数
         let params = {
-          'name': 'reply',//Layout显示的组件
-          'action': 'reqReply2Comment',//添加留言API
-          'placeholder': '@'+ name,//文本框提示
-          'submitDesc': '回复',//提交按钮文字
-          'id': cid //cid或者rid
+          name: 'reply',//Layout显示的组件
+          action: 'reqReply2Comment',//添加留言API
+          placeholder: '@' + name,//文本框提示
+          submitDesc: '回复',//提交按钮文字
+          id: cid, //cid或者rid
+          updateAction: this.updateArticleComment
         };
         //2.弹出回复框
         this.showReply(params);
@@ -127,11 +129,12 @@
       reply2Reply(rid,name) {
         //1.组合参数
         let params = {
-          'name': 'reply',//Layout显示的组件
-          'action': 'reqReply2Reply',//添加留言API
-          'placeholder': '@'+ name,//文本框提示
-          'submitDesc': '回复',//提交按钮文字
-          'id': rid //cid或者rid
+          name: 'reply',//Layout显示的组件
+          action: 'reqReply2Reply',//添加留言API
+          placeholder: '@' + name,//文本框提示
+          submitDesc: '回复',//提交按钮文字
+          id: rid, //cid或者rid
+          updateAction: this.updateArticleComment
         };
         //2.弹出回复框
         this.showReply(params);

@@ -90,6 +90,7 @@
       },
       //改变文章列表
       changeArticleList(tId){
+        //1.清除
         this.activeTab = tId;
         this.reqArticles({tId: tId, currentPage: this.currentPage, size: this.size});
       }
