@@ -5,7 +5,7 @@
       <p class="leader">All cards must be the same height and width for space calculations on large screens.</p>
       <div class="card-wrap" v-if="talk.talks">
         <div class="card" v-for="(item) in talk.talks">
-          <div class="head">
+          <div class="head" :style="{backgroundColor:randomColor}">
             <div class="number-box">
               <span>{{item.floor}}</span>
             </div>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="re-list">
                   <div class="re-item">
-                    <div class="item" v-for="(item_reply, index) in item.replies">
+                    <div class="item" v-for="(item_reply) in item.replies">
                       <div class="info">
                         <a href="#" class="name">{{item_reply.fromName}}  </a>回复 <a href="#" class="name">{{item_reply.toName}} ： </a>
                         <span class="content" v-html="item_reply.content"></span>
@@ -60,7 +60,8 @@
     name: "Home",
     data() {
       return {
-        hasMore: true
+        hasMore: true,
+        colors: ['#86b0ed','#7ed321','#e3af83','#e38395','#e383ca','#579dff']
       }
     },
     components: {},
@@ -70,7 +71,10 @@
     computed:{
       ...mapState({
         talk: ({talk}) => talk
-      })
+      }),
+      randomColor(){
+        return this.colors[Math.floor(Math.random() * this.colors.length + 1)-1];
+      }
     },
     methods: {
       ...mapActions([
@@ -262,10 +266,8 @@
               padding-right 20px
             .op
               cursor pointe
-  .reply-btn{
-    /*display none;*/
+  .reply-btn
     opacity 0;
-  }
   .timeline
     padding: 100px 0;
     background: #f7f7f7;
@@ -317,7 +319,6 @@
       width: 1170px;
       margin: 0 auto;
       .card
-        background-color: #46b8e9;
         position: relative;
         display: block;
         margin: 0px auto 50px;
@@ -354,6 +355,8 @@
               display: block;
               font-size: 13px;
               margin-bottom: 5px;
+          .small
+            padding-bottom 5px
         .body
           background: #fff;
           border: 1px solid rgba(191, 191, 191, 0.4);
@@ -366,6 +369,7 @@
           img
             display: block;
             width: 100%;
+
   .iconfont {
     font-family: "iconfont" !important;
     font-size: 16px;

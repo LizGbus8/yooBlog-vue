@@ -11,7 +11,7 @@
     name: "User",
     methods: {
       onClick() {
-
+        this.$router.replace('/master');
       }
     }
   }

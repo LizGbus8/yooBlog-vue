@@ -14,20 +14,10 @@
           <img class="img" src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1378747050,2045184536&fm=26&gp=0.jpg">
         </div>
         <div class="info">
-            <span class="bottom">
-              <span class="praise">
-                <span class="wrap"><i class="iconfont">&#xeb97;</i></span>
-                <span v-if="item.starCount > 0">
-                  <span class="unit">x</span>
-                  <span class="praisenums">{{item.starCount}}</span>
-                </span>
-                <span class="dot">·</span>
-                <span class="votes-word">赞</span>
-              </span>
-
-              <span class="author">{{item.author}}</span>
-              <span class="dot" style="padding: 0 5px">·</span>
-              <span class="release-time">{{item.createdTime | formatDate}}</span>
+          <span class="bottom">
+            <span style="padding-right: 5px">阅读：42</span>
+            作者：<span style="padding-right: 5px;color: #df5000;">Flandre</span>
+            <span>时间：{{item.createdTime | formatDate}}</span>
           </span>
         </div>
       </li>
@@ -100,11 +90,11 @@
     min-height 60px
     li
       list-style none
-      transition all .2s linear;
+      transition all .3s linear;
 
       &:hover
         border-radius 5px;
-        background: #f8f8f7
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
 
     .blog-item
       margin 20px 0;
@@ -124,7 +114,14 @@
             margin-bottom 10px;
             margin-top 0px
             font-size $fontSize2;
-            color $fontColor2;
+            font-family -apple-system, Monda, "PingFang SC", "Microsoft YaHei", sans-serif;
+            color: rgb(85,85,85);
+            font-weight: 700;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            -webkit-text-decoration: none;
+            text-decoration: none
 
           .body
             width 573px;
@@ -153,6 +150,7 @@
         .bottom
           margin 5px;
           margin-top 0px;
+          font-size 12px
 
         .praise
           cursor pointer;

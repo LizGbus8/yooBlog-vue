@@ -27,8 +27,8 @@
               path: '/'
             },
             {
-              meta: '实验基地',
-              path: '/a'
+              meta: '基地',
+              path: '/base'
             },
             {
               meta: '留言',

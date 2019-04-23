@@ -1,16 +1,16 @@
 <template>
   <div class="record" v-loading="this.loading">
-    <article v-for="(year) in years">
+    <article v-for="(year,index) in years">
       <h3>{{year}}</h3>
       <section v-for="(record) in annual_record[year]">
-        <span class="point-time point-yellow"></span>
+        <span class="point-time" :style="{backgroundColor:colors[index]}"></span>
         <time :datetime="datetime">
           <span>{{record.createdTime.month}} {{record.createdTime.dayOfMonth}}</span>
           <span>{{year}}</span>
         </time>
         <aside>
           <p class="things">{{record.content}}</p>
-          <p class="brief"><a class="text-yellow" :href="record.reference"><i class="iconfont" style="font-size: 12px;padding-right: 5px">&#xe617;</i>{{record.referenceDesc}}</a>
+          <p class="brief"><a :style="{color:colors[index]}" :href="record.reference"><i class="iconfont" style="font-size: 12px;padding-right: 5px">&#xe617;</i>{{record.referenceDesc}}</a>
             ({{record.author}})</p>
         </aside>
       </section>
@@ -31,12 +31,16 @@
         loading:true,
         current:1,
         showMore:true,
-        moreLoading:false
+        moreLoading:false,
+        colors: ['#86b0ed','#ffb902','#f6393f','#95c91e','#ffb902','#e38395','#e383ca','#579dff']
       }
     },
     computed:{
       datetime(){
         return "2019-2";
+      },
+      randomColor(){
+        return this.colors[Math.floor(Math.random() * this.colors.length + 1)-1];
       }
     },
     created(){
