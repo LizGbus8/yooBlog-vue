@@ -1,17 +1,17 @@
 <template>
   <div class="wrap">
-    <div class="article">
+    <div class="article" v-if="this.$route.params.utils != null">
       <div class="title">
-        <h2>Java Http工具类及使用文档</h2>
-        <span>发表于2019-09-11 &nbsp;&nbsp; <a style="color: #df5000;cursor: pointer">📂附件</a> &nbsp;&nbsp;阅读次数 25</span>
+        <h2>{{ this.$route.params.utils.title }}</h2>
+        <span>发表于 {{this.$route.params.utils.date}} &nbsp;&nbsp; <a style="color: #df5000;cursor: pointer" :href="this.$route.params.utils.fileUrl">📂附件</a> &nbsp;&nbsp;阅读次数 {{this.$route.params.utils.readCount}}</span>
       </div>
-      <div class="content" v-html="data">
+      <div class="content" v-html="this.$route.params.utils.content">
       </div>
       <div class="share-box">
         <div class="link">
           <ul>
             <li><a><img src="https://static.segmentfault.com/v-5c8b4d77/global/img/creativecommons-cc.svg"></a></li>
-            <li><a>关联文章</a></li>
+            <li><a :href="this.$route.params.utils.relevance" target="_blank">关联文章</a></li>
           </ul>
         </div>
         <div class="share">
@@ -40,185 +40,7 @@
     name: "Detail",
     data(){
       return {
-        data:'<html>\n' +
-          '<head>\n' +
-          '  <title>Evernote Export</title>\n' +
-          '  <basefont face="微软雅黑" size="2" />\n' +
-          '  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />\n' +
-          '  <meta name="exporter-version" content="YXBJ Windows/600646 (zh-CN, DDL); Windows/10.0.0 (Win64);"/>\n' +
-          '  <style>\n' +
-          '    body, td {\n' +
-          '      font-family: 微软雅黑;\n' +
-          '      font-size: 10pt;\n' +
-          '    }\n' +
-          '  </style>\n' +
-          '</head>\n' +
-          '<body>\n' +
-          '<a name="889"/>\n' +
-          '\n' +
-          '<div>\n' +
-          '<span><div>\n' +
-          ' <span style="font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; color: rgb(55, 59, 56);">在『</span>\n' +
-          ' <a href="https://list.yinxiang.com/xiaobaixiulian/64ccf1f5-0cd1-445f-8a93-facba3a634f0.php" shape="rect" style="font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; color: rgb(55, 59, 56);">入门手册</a>\n' +
-          ' <span style="font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; color: rgb(55, 59, 56);">』中，我们已经介绍了『剪藏』的基本用法，相信你已经知道，</span>\n' +
-          ' <span style="font-weight: bold; font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; color: rgb(32, 192, 92);">不论你使用的是手机还是电脑，印象笔记都可以随时帮你保存网页上的内容，即使原网站已失效，你仍然可以在笔记中看到这些内容。 </span>\n' +
-          '</div> \n' +
-          '<div style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">\n' +
-          ' <span style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(32, 192, 92); font-size: 16px; font-family: verdana, Verdana, Geneva, sans-serif; font-weight: bold;">  </span>\n' +
-          '</div> \n' +
-          '<div style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"> \n' +
-          ' <img src="YinXiangBiJi.enex_files/Image.png" type="image/png" data-filename="Image.png" style="max-width:100%;height:auto;"/> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="text-align: center; font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;"> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="text-align: center; font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;"> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="text-align: center; font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;">\n' +
-          ' <span style="font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: verdana, Verdana, Geneva, sans-serif; color: black; font-size: 16px;">还没用过？→</span>\n' +
-          ' <a href="http://v.qq.com/x/page/f0526r8sp8w.html" shape="rect" style="font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: verdana, Verdana, Geneva, sans-serif; color: rgb(55, 59, 56); font-size: 16px; margin-top: 1em; margin-bottom: 1em; font-weight: bold;">戳这里</a>\n' +
-          ' <span style="font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: verdana, Verdana, Geneva, sans-serif; color: rgb(55, 59, 56); font-size: 16px; margin-top: 1em; margin-bottom: 1em; font-weight: bold;"> </span>\n' +
-          ' <span style="font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: verdana, Verdana, Geneva, sans-serif; color: rgb(45, 197, 101); font-size: 16px; margin-top: 1em; margin-bottom: 1em; font-weight: bold;">看短视频，</span>\n' +
-          ' <span style="font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: verdana, Verdana, Geneva, sans-serif; color: rgb(45, 197, 101); font-size: 16px; margin-top: 1em; margin-bottom: 1em; font-weight: bold;">马上告别复制粘贴</span>\n' +
-          '</div> \n' +
-          '<div style="text-align: center; font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;"> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="text-align: center; font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;"> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="color: rgb(55, 59, 56); font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; font-variant-caps: normal; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; -en-paragraph: true; margin-top: 1em; margin-bottom: 1em;">\n' +
-          ' <span style="color: rgb(55, 59, 56); font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; -en-paragraph: true; margin-top: 1em; margin-bottom: 1em; orphans: auto; widows: auto;">电脑上的剪藏不仅支持绝大多数主流浏览器，还有更多强大的功能，可以帮助你</span>\n' +
-          ' <span style="color: rgb(32, 192, 92); font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; -en-paragraph: true; margin-top: 1em; margin-bottom: 1em; orphans: auto; widows: auto; font-weight: bold;">专业化地保存想要的内容。</span>\n' +
-          '</div> \n' +
-          '<h3 style="font-size: 20px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(204, 204, 204); color: rgb(32, 192, 92); font-family: verdana, Verdana, Geneva, sans-serif; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="font-size: 20px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(204, 204, 204); color: rgb(32, 192, 92); font-family: verdana, Verdana, Geneva, sans-serif; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">一、抛弃复制粘贴，保存『选中部分』</span></h3> \n' +
-          '<div> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"> \n' +
-          ' <img src="YinXiangBiJi.enex_files/Image [1].png" type="image/png" data-filename="Image.png" style="height: auto;max-width:100%;height:auto;"/> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">\n' +
-          ' <span style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(55, 59, 56); font-size: 16px; font-family: verdana, Verdana, Geneva, sans-serif;">很多时候我们并不需要保存网页上的全部内容。有了剪藏，不用再复制粘贴，直接使用鼠标选中想要保存的内容，然后点击剪藏按钮，剩下的让印象笔记帮你完成。</span>\n' +
-          '</div> \n' +
-          '<div style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<h3 style="font-size: 20px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(204, 204, 204); color: rgb(32, 192, 92); font-family: verdana, Verdana, Geneva, sans-serif; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="font-size: 20px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(204, 204, 204); color: rgb(32, 192, 92); font-family: verdana, Verdana, Geneva, sans-serif; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">二、『隐藏广告』，让你专注于内容</span></h3> \n' +
-          '<div> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"> \n' +
-          ' <img src="YinXiangBiJi.enex_files/Image [2].png" type="image/png" data-filename="Image.png" style="height: auto;max-width:100%;height:auto;"/> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">\n' +
-          ' <span style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(55, 59, 56); font-size: 16px; font-family: verdana, Verdana, Geneva, sans-serif;">印象笔记剪藏插件可以帮你</span>\n' +
-          ' <span style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(32, 192, 92); font-size: 16px; font-family: verdana, Verdana, Geneva, sans-serif; font-weight: bold;">去除网页中的无关内容，只保存最基本的格式和文字</span>\n' +
-          ' <span style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(55, 59, 56); font-size: 16px; font-family: verdana, Verdana, Geneva, sans-serif;">，让你专注于内容，而不被纷杂的其他信息打扰。</span>\n' +
-          '</div> \n' +
-          '<div>\n' +
-          ' <span style="font-style: italic; font-size: 14px; color: black;">小技巧：</span>\n' +
-          '</div> \n' +
-          '<div>\n' +
-          ' <span style="font-style: italic; font-size: 14px; color: black;">点击剪藏按钮后，可以用鼠标选中其中的部分文字，在剪藏得到的笔记中，这部分文字也会</span>\n' +
-          ' <span style="font-style: italic; font-size: 14px; color: rgb(32, 192, 92); font-weight: bold;">高亮显示</span>\n' +
-          ' <span style="font-style: italic; font-size: 14px; color: black;">。</span>\n' +
-          '</div> \n' +
-          '<div>\n' +
-          ' <span style="font-style: italic; font-size: 14px; color: black;">在『网页正文』『隐藏广告』『整个页面』这三种模式下都可以使用这个功能。</span>\n' +
-          '</div> \n' +
-          '<h3 style="font-size: 20px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(204, 204, 204); color: rgb(32, 192, 92); font-family: verdana, Verdana, Geneva, sans-serif; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="font-size: 20px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(204, 204, 204); color: rgb(32, 192, 92); font-family: verdana, Verdana, Geneva, sans-serif; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">三、节省空间，只保存『网址』</span></h3> \n' +
-          '<div style="color: rgb(55, 59, 56); font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; font-variant-caps: normal; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; -en-paragraph: true; margin-top: 1em; margin-bottom: 1em;">\n' +
-          ' <span style="color: rgb(55, 59, 56); font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; -en-paragraph: true; margin-top: 1em; margin-bottom: 1em; orphans: auto; widows: auto;">只想保存网页链接和基本信息？试试『网址』模式，帮你去除具体内容，只留下链接、标题和内容摘要。你可以随时在笔记中点击链接查看原网站。</span>\n' +
-          '</div> \n' +
-          '<div>\n' +
-          ' <span style="font-style: italic; font-size: 14px; color: black;">温馨提示：</span>\n' +
-          '</div> \n' +
-          '<div>\n' +
-          ' <span style="font-style: italic; font-size: 14px; color: black;">使用这种模式，由于并未保存网页具体内容，所以查看的时候需要进入原网站。如果希望防止原网站失效而保存的话，不建议使用这个模式哦。</span>\n' +
-          '</div> \n' +
-          '<h3 style="font-size: 20px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(204, 204, 204); color: rgb(32, 192, 92); font-family: verdana, Verdana, Geneva, sans-serif; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="font-size: 20px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(204, 204, 204); color: rgb(32, 192, 92); font-family: verdana, Verdana, Geneva, sans-serif; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">四、使用剪藏收藏图片</span></h3> \n' +
-          '<div> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"> \n' +
-          ' <img src="YinXiangBiJi.enex_files/Image [3].png" type="image/png" data-filename="Image.png" style="height:auto;max-width:100%;height:auto;" width="477"/> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">\n' +
-          ' <span style="font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(55, 59, 56); font-size: 16px; font-family: verdana, Verdana, Geneva, sans-serif;">在网页中看发现了一张有用的图片，不需要下载到本地再放到笔记里面。试试点击右键，找到『印象笔记·剪藏』&gt;『剪藏图片』。</span>\n' +
-          '</div> \n' +
-          '<div style="color: rgb(55, 59, 56); font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; font-variant-caps: normal; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; -en-paragraph: true; margin-top: 1em; margin-bottom: 1em;">\n' +
-          ' <span style="color: rgb(55, 59, 56); font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; -en-paragraph: true; margin-top: 1em; margin-bottom: 1em; orphans: auto; widows: auto;">你也可以直接使用『屏幕截图』模式，将想要的部分截取为图片并保存到笔记中。</span>\n' +
-          ' <span style="color: rgb(32, 192, 92); font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; -en-paragraph: true; margin-top: 1em; margin-bottom: 1em; orphans: auto; widows: auto; font-weight: bold;">你还可以添加箭头、评论和形状到截取的图片上，把你的心情永远记录下来。</span>\n' +
-          '</div> \n' +
-          '<h3 style="font-size: 20px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(204, 204, 204); color: rgb(32, 192, 92); font-family: verdana, Verdana, Geneva, sans-serif; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="font-size: 20px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(204, 204, 204); color: rgb(32, 192, 92); font-family: verdana, Verdana, Geneva, sans-serif; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">五、『网页正文』，一键保存重要信息</span></h3> \n' +
-          '<div style="color: rgb(55, 59, 56); font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; font-variant-caps: normal; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; -en-paragraph: true; margin-top: 1em; margin-bottom: 1em;">\n' +
-          ' <span style="color: rgb(55, 59, 56); font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; -en-paragraph: true; margin-top: 1em; margin-bottom: 1em; orphans: auto; widows: auto;">这是剪藏的默认模式，它可以帮你把网站上的主要内容完整地保存到笔记中，对于博文类网页识别率最高。</span>\n' +
-          '</div> \n' +
-          '<div>\n' +
-          ' <span style="font-style: italic; font-size: 14px; color: black;">小技巧：</span>\n' +
-          '</div> \n' +
-          '<div>\n' +
-          ' <span style="font-style: italic; font-size: 14px; color: black;">你可以点击屏幕上的『+』『-』按钮，或者使用键盘上的上下方向键，扩大或减小保存的区域。</span>\n' +
-          '</div> \n' +
-          '<h3 style="font-size: 20px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(204, 204, 204); color: rgb(32, 192, 92); font-family: verdana, Verdana, Geneva, sans-serif; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="font-size: 20px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(204, 204, 204); color: rgb(32, 192, 92); font-family: verdana, Verdana, Geneva, sans-serif; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">六、完整保存『整个页面』</span></h3> \n' +
-          '<div style="color: rgb(55, 59, 56); font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; font-variant-caps: normal; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; -en-paragraph: true; margin-top: 1em; margin-bottom: 1em;">\n' +
-          ' <span style="color: rgb(55, 59, 56); font-family: verdana, Verdana, Geneva, sans-serif; font-size: 16px; font-variant-caps: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; -en-paragraph: true; margin-top: 1em; margin-bottom: 1em; orphans: auto; widows: auto;">用这个模式能收录网页上的所有内容，完整地保留网页的原貌。</span>\n' +
-          '</div> \n' +
-          '<div> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div>\n' +
-          '  点击 \n' +
-          ' <a href="https://www.yinxiang.com/webclipper/install/" shape="rect">这里</a>，下载专门适配你的浏览器的剪藏插件。 \n' +
-          '</div> \n' +
-          '<div> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div>\n' +
-          '    \n' +
-          '</div> \n' +
-          '<div> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="text-align: center;"> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="text-align: center;"> \n' +
-          ' <br clear="none"/> \n' +
-          '</div> \n' +
-          '<div style="text-align: center;">\n' +
-          ' <span style="font-style: italic;">你觉得这个技巧怎么样？</span>\n' +
-          '</div> \n' +
-          '<div style="text-align: center;">\n' +
-          ' <span style="font-style: italic;">点击如下链接，</span>\n' +
-          ' <span style="font: 14.0px \'Helvetica Neue\';">动动手指让我们知道你的看法吧</span>\n' +
-          ' <span style="font: 13.0px \'Helvetica Neue\'; font-style: italic;">！</span>\n' +
-          '</div> \n' +
-          '<div style="text-align: center;"> \n' +
-          ' <a href="https://www.wenjuan.com/s/JzamQb/" shape="rect">https://www.wenjuan.com/s/JzamQb/</a> \n' +
-          '</div> \n' +
-          '<div> \n' +
-          ' <br clear="none"/> \n' +
-          '</div></span>\n' +
-          '</div></body></html> '
+
       }
     }
   }
@@ -276,6 +98,8 @@
               a
                 display flex
                 align-items center
+                text-decoration none
+                color $theme
                 img
                   width 90px;
         .share

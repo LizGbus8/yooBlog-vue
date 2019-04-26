@@ -34,3 +34,9 @@ export const getRecords = (params) => ajax(BASE_URL + '/records', params, 'GET')
 
 //获取工具列表
 export const getUtils = (params) => ajax(BASE_URL + '/utils', params, 'GET');
+
+//获取工具列表
+export const getFavorites = (params) => ajax(BASE_URL + '/favorites', params, 'GET');
+
+//获取工具列表
+export const getAlbums = (params) => ajax(BASE_URL + '/albums', params, 'GET');

@@ -76,7 +76,8 @@
         this.$message({
           type:'error',
           center:true,
-          message: '复制失败咯，重试一下！！\\(^ 0^)/'
+          message: '复制失败咯，重试一下！！\\(^ 0^)/',
+          duration:5000
         });
       }
     }

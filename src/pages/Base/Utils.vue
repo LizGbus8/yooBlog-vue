@@ -10,8 +10,6 @@
         sortable
         width="130"
         column-key="date"
-        :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
-        :filter-method="filterHandler"
       >
       </el-table-column>
       <el-table-column
@@ -27,12 +25,9 @@
         prop="tag"
         label="标签"
         width="120"
-        :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
-        :filter-method="filterTag"
         filter-placement="bottom-end">
         <template slot-scope="scope">
           <el-tag
-            :type="scope.row.tag === '家' ? 'primary' : 'success'"
             disable-transitions>{{scope.row.tag}}
           </el-tag>
         </template>
@@ -41,7 +36,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">详情</el-button>
+            @click="toDetail(scope.$index, scope.row)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -50,7 +45,7 @@
         @current-change="currentChange"
         :page-size="10"
         layout="prev, pager, next"
-        :total="articleList.total">
+        :total="this.total">
       </el-pagination>
     </div>
   </div>
@@ -68,6 +63,7 @@
       return {
         currentPage: 1, //当前页
         size: 10,    //每页的数据
+        total: null,
         tableData: []
       }
     },
@@ -76,16 +72,26 @@
     },
     methods: {
       initData(){
+        //请求后台
         getUtils({currentPage: this.currentPage}).then(res => {
           console.log(res);
+          //总页数
+          this.total = res.data.total;
+
           const utilsList = res.data.records;
           console.log(utilsList);
           utilsList.forEach(utils => {
             let item = {};
+            //表格显示的数据
             item.date = utils.createdTime.year + '-' + utils.createdTime.monthValue + '-' + utils.createdTime.dayOfMonth;
             item.name = utils.author;
             item.title = utils.title;
             item.tag = utils.tag;
+            //详情数据
+            item.fileUrl = utils.fileUrl;
+            item.content = utils.content;
+            item.readCount = utils.readCount;
+            item.relevance = utils.relevance;
             this.tableData.unshift(item);
           })
         })
@@ -93,22 +99,8 @@
       currentChange(currentPage) {
         //TODO 分页
       },
-      handleEdit(index, row){
-        console.log('index:' + index);
-        console.log('row:' + JSON.stringify(row));
-      },
-      resetDateFilter() {
-        this.$refs.filterTable.clearFilter('date');
-      },
-      clearFilter() {
-        this.$refs.filterTable.clearFilter();
-      },
-      filterTag(value, row) {
-        return row.tag === value;
-      },
-      filterHandler(value, row, column) {
-        const property = column['property'];
-        return row[property] === value;
+      toDetail(index, row){
+        this.$router.push({ name: 'Detail', params: { utils: row }})
       }
     }
   }

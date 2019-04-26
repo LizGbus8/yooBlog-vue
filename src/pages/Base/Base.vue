@@ -21,7 +21,7 @@
     <div class="base-item">
       <div class="show" @click="toPage('/favorites')">
         <img src="http://pics.sc.chinaz.com/Files/pic/icons128/6850/o13.png">
-        <h2>收藏</h2>
+        <h2>收藏夹</h2>
       </div>
     </div>
     <div class="base-item">

@@ -26,7 +26,7 @@
       >
       </el-table-column>
       <el-table-column
-        prop="address"
+        prop="content"
         label="内容"
         :formatter="formatter">
       </el-table-column>
@@ -34,12 +34,9 @@
         prop="tag"
         label="标签"
         width="120"
-        :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
-        :filter-method="filterTag"
         filter-placement="bottom-end">
         <template slot-scope="scope">
           <el-tag
-            :type="scope.row.tag === '家' ? 'primary' : 'success'"
             disable-transitions>{{scope.row.tag}}
           </el-tag>
         </template>
@@ -48,7 +45,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">打开</el-button>
+            @click="open(scope.$index, scope.row)">打开</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -62,46 +59,49 @@
 </template>
 
 <script>
+    import {getFavorites} from "../../api";
+
     export default {
       name: "Favorites",
+      mounted(){
+        this.initData();
+      },
       data() {
         return {
-          tableData: [{
-            date: '2016-05-02',
-            address: '上海市普陀区金沙江路 1518 弄',
-            tag: '家'
-          }, {
-            date: '2016-05-04',
-            address: 'Java Http工具类及使用文档',
-            tag: 'Java工具类'
-          }, {
-            date: '2016-05-01',
-            address: '上海市普陀区金沙江路 1519 弄',
-            tag: '附件'
-          }, {
-            date: '2016-05-03',
-            address: '上海市普陀区金沙江路 1516 弄',
-            tag: '浏览器脚本'
-          }],
-          input: ''
+          currentPage: 1, //当前页
+          size: 10,    //每页的数据
+          total: null,
+          tableData: []
         }
       },
+      computed:{
+
+      },
       methods: {
-        resetDateFilter() {
-          this.$refs.filterTable.clearFilter('date');
+        initData(){
+          //请求后台
+          getFavorites({currentPage: this.currentPage}).then(res => {
+            console.log(res);
+            //总页数
+            this.total = res.data.total;
+
+            const favoritesList = res.data.records;
+            favoritesList.forEach( favorites => {
+              let item = {};
+              //表格显示的数据
+              item.date =  favorites.createdTime.year + '-' +  favorites.createdTime.monthValue + '-' +  favorites.createdTime.dayOfMonth;
+              item.content = favorites.content;
+              item.link = favorites.link;
+              item.tag = favorites.tag;
+              this.tableData.unshift(item);
+            })
+          })
         },
-        clearFilter() {
-          this.$refs.filterTable.clearFilter();
+        currentChange(currentPage) {
+          //TODO 分页
         },
-        formatter(row, column) {
-          return row.address;
-        },
-        filterTag(value, row) {
-          return row.tag === value;
-        },
-        filterHandler(value, row, column) {
-          const property = column['property'];
-          return row[property] === value;
+        open(index, row) {
+          window.open(row.link, '_blank');
         }
       }
     }
