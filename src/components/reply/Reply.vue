@@ -199,18 +199,20 @@
             'content': this.content
           };
           //id为可变字段，可能为rid、cid、ownerId
-          if (typeof this.$store.state.component.id != 'undifined' ) {
+          if (typeof this.$store.state.component.id != undefined ) {
             params.id = this.$store.state.component.id;
           }
           //后台提交
           this.$store.dispatch(this.$store.state.component.action, {
             params: qs.stringify(params), callback: (result) => {
-
+              console.log('result=' + JSON.stringify(result));
               this.loading=false;
               //留言添加成功
               if (result.code === 0) {
-                //更新store数据
-                this.$store.state.component.updateAction(result)
+                //更新store数据,只有回复需要这个逻辑，评论和留言不需要
+                if (this.$store.state.component.updateAction != undefined) {
+                  this.$store.state.component.updateAction(result);
+                }
 
                 //隐藏回复组件
                 this.$store.dispatch("setComponent", {});
@@ -313,6 +315,13 @@
             border-bottom 1.2px dashed rgb(222, 222, 222)
             text-align left
             font-size 16px
+            &::-webkit-scrollbar
+              width 5px;     /*高宽分别对应横竖滚动条的尺寸*/
+              height 1px;
+            &::-webkit-scrollbar-thumb /*滚动条里面小方块*/
+              border-radius 10px;
+              -webkit-box-shadow inset 0 0 5px rgba(0,0,0,0.2);
+              background #686767
             img
               width 25px
             &:empty::before

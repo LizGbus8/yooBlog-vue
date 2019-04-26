@@ -4,6 +4,7 @@
     <PageWrap></PageWrap>
     <Menu></Menu>
     <component :is="component"></component>
+    <BackToTop></BackToTop>
   </div>
 </template>
 
@@ -13,6 +14,7 @@
   import Reply from '@/components/reply/Reply';
   import Menu from '@/components/menu/Menu';
   import Console from '@/components/console/Console';
+  import BackToTop from "../../components/backToTop/BackToTop";
   export default {
     name: "Home",
     components:{
@@ -20,7 +22,8 @@
       PageWrap,
       Reply,
       Menu,
-      Console
+      Console,
+      BackToTop
     },
     computed:{
       component(){

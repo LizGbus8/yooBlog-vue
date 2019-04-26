@@ -29,5 +29,8 @@ export const addReply2Comment = (params) => ajax(BASE_URL + '/reply/comment', pa
 //添加子回复回复
 export const addReply2Reply = (params) => ajax(BASE_URL + '/reply/reply', params,'POST');
 
-//添加子回复回复
+//获取记录
 export const getRecords = (params) => ajax(BASE_URL + '/records', params, 'GET');
+
+//获取工具列表
+export const getUtils = (params) => ajax(BASE_URL + '/utils', params, 'GET');

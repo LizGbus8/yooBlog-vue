@@ -1,14 +1,16 @@
-<template>
+<template xmlns:v-clipboard="http://www.w3.org/1999/xhtml">
   <div class='wrap'>
     <input type='checkbox' id='checking' style='display:none;' />
     <button class='blob' @click="menuClick('reply')"><i class="iconfont">&#xe644;</i></button>
     <button class='blob'><i class="iconfont" style="font-size: 22px">&#xe8e5;</i></button>
     <button class='blob'>&#x2699;1</button>
     <button class='blob'>&#x2764;</button>
-    <button class='blob'><i class="iconfont">&#xe67d;</i></button>
-    <button class='blob'><i class="iconfont">&#xe617;</i></button>
-    <button class='blob'><i class="iconfont" style="font-size: 22px">&#xe605;</i></button>
-    <button class='blob'><i class="iconfont">&#xe66e;</i></button>
+    <button class='blob' title="关于我" @click="toPage('/about')"><i class="iconfont">&#xe67d;3</i></button>
+    <button class='blob' title="分享"
+            v-clipboard:copy="message"
+            v-clipboard:success="onCopy"><i class="iconfont">&#xe617;4</i></button>
+    <button class='blob'><i class="iconfont" style="font-size: 22px">&#xe605;5</i></button>
+    <button class='blob' title="帮助" @click="toPage('/help')"><i class="iconfont">&#xe66e;6</i></button>
     <label class='blob' for='checking'>
       <span class='bar'></span>
       <span class='bar'></span>
@@ -18,11 +20,13 @@
 </template>
 
 <script>
-
-  import {mapActions} from "vuex";
-
   export default {
     name: "Menu",
+    data(){
+      return {
+        message:"这个博客网站做得还不错！！赶紧来看看吧！！www.yooblog.com"
+      }
+    },
     methods: {
       menuClick: function (option) {
         //重复点击
@@ -33,6 +37,7 @@
           let placeholder;
           let params;
           //主页和留言页面
+          const talkPath = ['/home', '/talk', '/record', '/base'];
           if (path.indexOf('/home') != -1 || path.indexOf('/talk') != -1 || path.indexOf('/record') != -1 || path.indexOf('/base') != -1) {
             placeholder = "给我留言吧(￣▽￣)~*";
             params = {
@@ -54,6 +59,25 @@
           }
           this.$store.dispatch("setComponent", params)
         }
+      },
+      toPage(path){
+        this.$router.replace(path)
+      },
+      onCopy(){
+        //提示
+        this.$message({
+          type:'success',
+          center:true,
+          message: '已经复制到剪贴板，赶紧复制分享吧！\\(^ 0^)/'
+        });
+      },
+      onError(){
+        //提示
+        this.$message({
+          type:'error',
+          center:true,
+          message: '复制失败咯，重试一下！！\\(^ 0^)/'
+        });
       }
     }
   }

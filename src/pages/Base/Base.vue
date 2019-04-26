@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <div class="base-item">
-      <div class="show">
+      <div class="show" @click="toPage('/utils')">
         <img src="http://pics.sc.chinaz.com/Files/pic/icons128/6850/o3.png">
         <h2>工具</h2>
       </div>
@@ -13,13 +13,13 @@
       </div>
     </div>
     <div class="base-item">
-      <div class="show">
+      <div class="show" @click="toPage('/album')">
         <img src="http://pics.sc.chinaz.com/Files/pic/icons128/6850/o12.png">
         <h2>相册</h2>
       </div>
     </div>
     <div class="base-item">
-      <div class="show">
+      <div class="show" @click="toPage('/favorites')">
         <img src="http://pics.sc.chinaz.com/Files/pic/icons128/6850/o13.png">
         <h2>收藏</h2>
       </div>
@@ -35,7 +35,12 @@
 
 <script>
     export default {
-        name: "Base"
+        name: "Base",
+      methods:{
+        toPage(path){
+          this.$router.push(path);
+        }
+      }
     }
 </script>
 

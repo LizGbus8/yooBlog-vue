@@ -9,9 +9,12 @@ import axios from 'axios'
 
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/font/iconfont.css';
+import VueClipboard from 'vue-clipboard2'
 
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
+
+Vue.use(VueClipboard)
 
 Vue.prototype.$http = axios;
 
