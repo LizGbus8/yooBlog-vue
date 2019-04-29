@@ -11,7 +11,7 @@
           <p>{{item.content}}</p>
           <div class="pic">
             <ul>
-              <li @click="showPic(pic.pictureUrl)" v-for="(pic) in item.pictures">
+              <li @click="showPic(pic.pid)" v-for="(pic) in item.pictures">
                 <a href="javascript:;"><img :src="pic.pictureUrl" alt=""></a>
               </li>
             </ul>
@@ -67,14 +67,26 @@
           }
         })
       },
-      showPic(path) {
+      showPic(pid) {
+        let path;
+        //找到pid的图片
+        this.albums.forEach(album => {
+          album.pictures.forEach(picture => {
+            if (picture.pid === pid) {
+              path = picture.pictureUrl;
+            }
+          })
+        });
+        //设置当前显示的图片路径
         this.currentPicUrl = path;
-        this.currentPicIndex = this.search(path);
+        //查找当前图片的位置
+        this.currentPicIndex = this.search(pid);
         this.picturnShow = true;
       },
-      search(path) {
+      //查找图片位置
+      search(pid) {
         for (let i = 0; i < this.pictures.length; i++) {
-          if (this.pictures[i].pictureUrl === path) {
+          if (this.pictures[i].pid === pid) {
             return i;
           }
         }
