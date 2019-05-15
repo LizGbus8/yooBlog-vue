@@ -193,10 +193,10 @@
 
           //获取参数
           const params = {
-            'nickName': this.nickName,
-            'email': this.email,
-            'website': this.website,
-            'content': this.content
+            nickName: this.nickName,
+            email: this.email,
+            website: this.website,
+            content: this.content
           };
           //id为可变字段，可能为rid、cid、ownerId
           if (typeof this.$store.state.component.id != undefined ) {

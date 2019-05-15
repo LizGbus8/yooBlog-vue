@@ -91,25 +91,19 @@
     li
       list-style none
       transition all .3s linear;
-
       &:hover
         border-radius 5px;
         box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
-
     .blog-item
       margin 20px 0;
-
       .article
         cursor pointer;
         display flex;
-
         .content
           margin 5px;
           margin-bottom 0px;
-
           .tag
             margin-bottom 5px;
-
           .title
             margin-bottom 10px;
             margin-top 0px

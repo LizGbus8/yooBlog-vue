@@ -14,6 +14,7 @@ import Utils from "../pages/Base/Utils";
 import Album from "../pages/Base/Album";
 import Favorites from "../pages/Base/Favorites";
 import Detail from "../pages/Base/Detail";
+import Terminal from "../components/dialog/Terminal";
 
 Vue.use(Router);
 
@@ -84,6 +85,12 @@ export default new Router({
           path: '/about',
           name: 'About',
           component: About
+        }
+        ,
+        {
+          path: '/terminal',
+          name: 'Terminal',
+          component: Terminal
         }
       ]
     },
