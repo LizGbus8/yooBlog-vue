@@ -10,11 +10,10 @@ import Master from "../pages/Master/Master";
 import Base from "../pages/Base/Base";
 import Help from "../pages/Help/Help";
 import About from "../pages/ABout/About";
-import Utils from "../pages/Base/Utils";
+import Tool from "../pages/Base/Tool";
 import Album from "../pages/Base/Album";
 import Favorites from "../pages/Base/Favorites";
 import Detail from "../pages/Base/Detail";
-import Terminal from "../components/dialog/Terminal";
 
 Vue.use(Router);
 
@@ -52,9 +51,9 @@ export default new Router({
           component: Detail
         },
         {
-          path: 'utils',
-          name: 'Utils',
-          component: Utils
+          path: 'tool',
+          name: 'Tool',
+          component: Tool
         },
         {
           path: 'favorites',
@@ -85,12 +84,6 @@ export default new Router({
           path: '/about',
           name: 'About',
           component: About
-        }
-        ,
-        {
-          path: '/terminal',
-          name: 'Terminal',
-          component: Terminal
         }
       ]
     },

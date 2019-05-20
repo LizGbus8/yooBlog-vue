@@ -2,11 +2,15 @@ import ajax from './ajax'
 
 const BASE_URL = 'http://localhost:8000';
 
+
+//请求最近文章
+export const getBlogger = (params) => ajax(BASE_URL + '/blogger', params);
+
 //请求最近文章
 export const getArticle = (params) => ajax(BASE_URL + '/articles', params);
 
 //所有标签
-export const getAllTab = () => ajax(BASE_URL + '/tabs');
+export const getAllTag = () => ajax(BASE_URL + '/tags');
 
 //文章详情
 export const getArticleDetail = (params) => ajax(BASE_URL + '/article/'+params);
@@ -33,7 +37,7 @@ export const addReply2Reply = (params) => ajax(BASE_URL + '/reply/reply', params
 export const getRecords = (params) => ajax(BASE_URL + '/records', params, 'GET');
 
 //获取工具列表
-export const getUtils = (params) => ajax(BASE_URL + '/utils', params, 'GET');
+export const getTools = (params) => ajax(BASE_URL + '/tools', params, 'GET');
 
 //获取工具列表
 export const getFavorites = (params) => ajax(BASE_URL + '/favorites', params, 'GET');

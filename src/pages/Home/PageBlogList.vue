@@ -57,7 +57,7 @@
       }),
       tabDesc() {
         return function (tabId) {
-          const tabs =JSON.parse(localStorage.getItem('tabs'));
+          const tabs =JSON.parse(localStorage.getItem('tags'));
           return tabs.filter(e=>e.tid == tabId)[0].description;
         }
       }

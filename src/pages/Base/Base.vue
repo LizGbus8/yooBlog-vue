@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <div class="base-item">
-      <div class="show" @click="toPage('/utils')">
+      <div class="show" @click="toPage('/tool')">
         <img src="http://pics.sc.chinaz.com/Files/pic/icons128/6850/o3.png">
         <h2>工具</h2>
       </div>

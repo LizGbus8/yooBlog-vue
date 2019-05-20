@@ -3,7 +3,7 @@
       <div class="article">
         <div class="title">
           <h2>{{articleDetail.article.title}}</h2>
-          <span v-if="articleDetail.article.createdTime">发表于{{articleDetail.article.createdTime | formatDate}} &nbsp;&nbsp;分类于 <a style="color: #df5000;cursor: pointer">📂{{tabDesc(articleDetail.article.tid) }}</a> &nbsp;&nbsp;{{articleDetail.article.replyCount}}条评论 &nbsp;&nbsp;阅读次数 {{articleDetail.article.readCount}}</span>
+          <span v-if="articleDetail.article.createdTime">发表于{{articleDetail.article.createdTime | formatDate}} &nbsp;&nbsp;分类于 <a style="color: #df5000;cursor: pointer">📂{{tagDesc(articleDetail.article.tid) }}</a> &nbsp;&nbsp;{{articleDetail.article.replyCount}}条评论 &nbsp;&nbsp;阅读次数 {{articleDetail.article.readCount}}</span>
         </div>
         <div class="content" v-html="articleDetail.article.content">
         </div>
@@ -85,10 +85,10 @@
       ...mapState({
         articleDetail: ({articleDetail}) => articleDetail
       }),
-      tabDesc() {
-        return function (tabId) {
-          const tabs = JSON.parse(localStorage.getItem('tabs')).filter(e=>e.tid == tabId);
-          return tabs.length > 0 ? tabs[0].description : 'null';
+      tagDesc() {
+        return function (tagId) {
+          const tags = JSON.parse(localStorage.getItem('tags')).filter(e=>e.tid == tagId);
+          return tags.length > 0 ? tags[0].description : 'null';
         }
       }
     },
@@ -162,8 +162,12 @@
         justify-content center
         flex-direction column
         h2
+          display flex
+          justify-content center
           font-size 28px
         span
+          display flex
+          justify-content center
           font-size 12px
         &::after
           content ""

@@ -172,9 +172,9 @@
         return new Date().toLocaleTimeString().split('').splice(2).join('')
       },
       autoScroll() {
-        this.$nextTick(() => {
-          this.$refs.terminalWindow.scrollTop = this.$refs.terminalLastLine.offsetTop;
-        })
+        // this.$nextTick(() => {
+        //   this.$refs.terminalWindow.scrollTop = this.$refs.terminalLastLine.offsetTop;
+        // })
       }
     }
   };
@@ -235,10 +235,13 @@
       float left
       margin 0 8px
       .close
+        outline none
         background-color #ff6159
       .minimize
+        outline none
         background-color #ffbf2f
       .maximize
+        outline none
         background-color #25cc3e
 
     .terminal-windown

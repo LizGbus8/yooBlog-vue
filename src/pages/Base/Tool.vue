@@ -52,10 +52,10 @@
 </template>
 <script>
 
-  import {getUtils} from "../../api";
+  import {getTools} from "../../api";
 
   export default {
-    name: "Utils",
+    name: "Tool",
     mounted(){
       this.initData();
     },
@@ -73,13 +73,11 @@
     methods: {
       initData(){
         //请求后台
-        getUtils({currentPage: this.currentPage}).then(res => {
-          console.log(res);
+        getTools({currentPage: this.currentPage}).then(res => {
           //总页数
           this.total = res.data.total;
 
           const utilsList = res.data.records;
-          console.log(utilsList);
           utilsList.forEach(utils => {
             let item = {};
             //表格显示的数据

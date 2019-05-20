@@ -2,18 +2,18 @@
   <div class="sidebar">
     <el-card class="profile-intro">
       <div align="center"><img class="avatar_pic" src="@/assets/image/img123.png"></div>
-      <h2 style="text-align: center">哟</h2>
-      <p>这雨量，不及我眼里一份！常即日暮他们都没有说清楚JS的基本类型有哪些。而且往往错误的说了一些C语言的数据类型</p>
+      <h2 style="text-align: center">{{this.user.nickname}}</h2>
+      <p>{{this.user.saying}}</p>
       <div class="link">
         <div class="item">
           <img class="icon" src="@/assets/github.png">
-          <a target="_blank" rel="noreferrer noopener" href="https://github.com/gershonv">
+          <a target="_blank" rel="noreferrer noopener" :href="this.user.github">
             github
           </a>
         </div>
         <div class="item">
           <img class="icon" src="@/assets/神经.png">
-          <a target="_blank" rel="noreferrer noopener" href="https://juejin.im/user/5acac6c4f265da2378408f92">
+          <a target="_blank" rel="noreferrer noopener" :href="this.user.github">
             juejin
           </a>
         </div>
@@ -47,27 +47,26 @@
 
 <script>
   import {mapActions} from "vuex";
-  import {getAllTab} from "../../api";
+  import {getAllTag, getBlogger} from "../../api";
+  import config from '../../common/config/config'
 
   export default {
     name: "Sidebar",
     data() {
       return {
+        user:{},
         activeItem: null,
         activeTab: null,
         currentPage:1, //当前页
         size:10,    //每页的数据
-        technologyClass: [
-          {id: 1, name: '前端', icon: require('@/assets/image/B01/7.png'),  showContent: false},
-          {id: 2, name: '后端', icon: require('@/assets/image/B01/4.png'),  showContent: false},
-          {id: 3, name: '工具', icon: require('@/assets/image/B01/9.png'),  showContent: false},
-          {id: 4, name: '程序员', icon: require('@/assets/image/B01/8.png'),  showContent: false},
-          {id: 5, name: 'Yoo说说', icon: require('@/assets/image/sunny.png'),  showContent: false}
-        ]
+        technologyClass:config.technologyClass
       }
     },
     created() {
       this.initData();
+    },
+    mounted(){
+      this.getBlogger();
     },
     methods: {
       ...mapActions([
@@ -75,13 +74,20 @@
       ]),
       initData() {
         //不用vuex，直接调用接口
-        getAllTab().then((res)=>{
-          window.localStorage.setItem('tabs', JSON.stringify(res.data));
+        getAllTag().then((res)=>{
+          window.localStorage.setItem('tags', JSON.stringify(res.data));
           this.technologyClass.forEach(v=>{
             v.children = res.data.filter(e=>e.catId == v.id);
           });
         });
 
+      },
+      getBlogger(){
+        getBlogger({id:1}).then(res => {
+          if (res.code === 0) {
+            this.user = res.data;
+          }
+        })
       },
       //处理点击
       handleClick(op, item) {

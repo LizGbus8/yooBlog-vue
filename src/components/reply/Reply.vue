@@ -205,7 +205,6 @@
           //后台提交
           this.$store.dispatch(this.$store.state.component.action, {
             params: qs.stringify(params), callback: (result) => {
-              console.log('result=' + JSON.stringify(result));
               this.loading=false;
               //留言添加成功
               if (result.code === 0) {
